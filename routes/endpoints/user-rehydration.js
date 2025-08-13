@@ -7,7 +7,7 @@ const moment = require("moment");
 
 const userRehydration = async (req, res) => {
   const refreshToken = req.headers?.cookie || "";
-
+  console.log("RFCT: ", refreshToken);
   if (!refreshToken) {
     return res.status(500).json({
       code: "TOKEN_MISSING",
