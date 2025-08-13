@@ -1,0 +1,535 @@
+{
+  "list": [
+    {
+      "itinerary_title": "Northern Lights Adventure: Days in Tromso",
+      "general_location": "Tromsø, Norway",
+      "description": "Embark on a captivating 5-day journey through Tromsø, where you’ll hunt the mesmerizing Northern Lights and immerse yourself in the breathtaking Arctic scenery and rich culture.",
+      "days": [
+        {
+          "timeInOut": "8:00 AM - 10:00 AM",
+          "description": "Start your day with stunning views at Tromsø Viewpoint, a perfect spot for panoramic photographs.",
+          "userAction": "Capture the breathtaking Arctic landscapes.",
+          "id": "ChIJBbVZOAXFxEURk4Ygwx1YB28",
+          "formattedAddress": "9020 Tromsø, Norway",
+          "location": { "latitude": 69.6348659, "longitude": 18.9912921 },
+          "rating": 4.8,
+          "displayName": { "text": "Tromsø Viewpoint" },
+          "photos": [
+            {
+              "name": "places/ChIJBbVZOAXFxEURk4Ygwx1YB28/photos/ATKogpdobCHNXjUmj8NZX3hd64FeaO0RzLeyH_3Ej9yKUso2w4vFoaGWWJ78SfC88v8TZco6YC1CIJoedkLEFz4r2lWfo-Sq1xOrWFudI8k8G-tqRBmvj7Z3bZxUzauYSY509MlOYWWtfRXTE8KLqsqef1UbiuTKrt7tan0VKv-Tsni42fG3hwiSHMuTXfwCkS4lyxKz3a0oT3xJ6z-HjIQZopgb8N2BKSqyITuu3WpgB_skzinsWriv2KagmQLKqDTX31IFDaR30dKezwn0_QsRaom2N1kpd-S3KfhI6uvclxlL2VAnGbREcLO1-f_90XxSlwzcjxjvnloHfm9sDghTn3MyrZdLYW4oS9IjKx64r8TJetwEUOBrjgAiZtQz7hPcym5VmgStHVjRbWyvGaDnSwaR--5LF6p2DhaM6o8bIY-oWA",
+              "widthPx": 4800,
+              "heightPx": 2700,
+              "authorAttributions": [
+                {
+                  "displayName": "Lars Potkownik",
+                  "uri": "https://maps.google.com/maps/contrib/111501866601560371149",
+                  "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocLKnxmbe4XoiRgKjnLHpppWutqmyLf-G0toKNVbWvP00RI2qA=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgICtyYf-WA&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgICtyYf-WA!2e10!4m2!3m1!1s0x45c4c5053859b505:0x6f07581dc3208693"
+            },
+            {
+              "name": "places/ChIJBbVZOAXFxEURk4Ygwx1YB28/photos/ATKogpfAvHHcDzjFn2nofz0THz26ccTt7_FVUtLmmuzamrt1plPEMawFQqf73RbBvKoAVDpPU944YDGjHLuxq2LAHNsSCoy06yE9w45VzQccKyFR9vf_rLIweZiklpl-wy5wX3-vYtT937Xat43FuSbuIRlYrNrfAZYkK-awRdc_nvj0yGgrp27h0roBUWVVIt36j9L8bwoJfzFHOOzPYwspqxv1wjagZ28G0hbkLtKrK6mKJtBlpWuuZD23_GappG5T7UzBkrD450qYIrPsIoQsvnQCgGKpwDqUVwCEg23KQIZ5nbDN96g_GfD7zF9r8dzw24zKje3B3lh5qwuvxKbZCtFG4gtzfhwcEV4RssUC8PWyVlzguPdbJqGgB_iSqi33BLjHlEAjW_nZJO4Hs5gfyRkqHJTgtB6dytUdo-Q2u7QxXhHp",
+              "widthPx": 4800,
+              "heightPx": 2378,
+              "authorAttributions": [
+                {
+                  "displayName": "Snowloaf",
+                  "uri": "https://maps.google.com/maps/contrib/116438702703009589558",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjVzHLPmwvXMX8vp4Ep9y8FmD05KKMeoRjMG34w8FF4s5cdNtUMF=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgIDl3M7r7gE&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDl3M7r7gE!2e10!4m2!3m1!1s0x45c4c5053859b505:0x6f07581dc3208693"
+            }
+          ]
+        },
+        {
+          "timeInOut": "10:30 AM - 12:30 PM",
+          "description": "Experience the local wildlife and serene beauty at Prestvannet, a popular hiking area.",
+          "userAction": "Explore the surroundings and photograph scenic vistas.",
+          "id": "ChIJixW1ZknExEURe8vICZ0g4AE",
+          "formattedAddress": "Langnesvegen 33, 9016 Tromsø, Norway",
+          "location": { "latitude": 69.6582772, "longitude": 18.9356534 },
+          "rating": 4.7,
+          "displayName": { "text": "Prestvannet" },
+          "photos": [
+            {
+              "name": "places/ChIJixW1ZknExEURe8vICZ0g4AE/photos/ATKogpdncy7Cd7gTrCWvUqjTV62IjnXfEmvlXgm6cwuVrr0yOp0dW-8Criuh8lxpCHLql_o5bDq4MyLONopeRsiNXhwJtBKJp8bit7LJj8sFM0pzsyWNEDg_SiMqGnl7QRZ3xWp2eghbowunugz-JnPRKElvQonV3U5j8li-d2vuHl3cIMY7e0yobeAK1W6xUEgrilQ5EsUD5Ks8S0-2LzgHFUt7Z-YY-Eju8eiJzLK2OV1-rQDnK9G4mshp5kQhb8clh724H9Lmy5HMrTx5bfgwf_mgOFyTSGM5WkSPrf1QHqos0PzBh7Ae3f84bwC3_EbINz0XMyyhEQMTZ3crPrRbbtjnOTFp8ACgbyFb1GlOE12wig7c00yJ4RC8cjqTfa90TJAiUPJjvBZ3FQVraaosthGsSn4XRTH7h_9bMYITHfqzJwM",
+              "widthPx": 4800,
+              "heightPx": 3600,
+              "authorAttributions": [
+                {
+                  "displayName": "Katarzyna",
+                  "uri": "https://maps.google.com/maps/contrib/113098474820403231066",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjUnzFyZ0mBb7D5pVj5svqdOMrQe6HPkLMSPXKzxaNGxZJoUCS0V=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgMDQqtva0wE&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgMDQqtva0wE!2e10!4m2!3m1!1s0x45c4c44966b5158b:0x1e0209d09c8cb7b"
+            },
+            {
+              "name": "places/ChIJixW1ZknExEURe8vICZ0g4AE/photos/ATKogpezwZ6ivT-4B0wrju_jmFVXIKg5GsrCi39h_uH0E-ZlgcVokRxDC1wNKKlHmphc0vcgq62Kz5lqptDnBg971UJ2c_ZUXizksGafWML0T8v3TMLReYd7qGkz-EePUNiQ1V_wscgMwsbSkwhgJ8CLy1XeyFubH3WgY3lHAKOLYYy_hrN1idRAj3R9ooYr685G5I_8BzqOX_gj1h1yhr2zZFR-zFDfeuQ22EL9ZXwsBtSyyLg1piNbB-_Kz_ZEY88qXQxRxIXoAxzFTRnD281aa9IzPjA_7I_ICbVThvilEw-Ljh7eSeP7OgbD11ZvmV3S-rdXxNBiD9uI1W8Q-ybibEUC8qtGGvlsbMX8PNqAsgEnacb_9O8imTkY8Hfra9YKDB2W4nmDjAtl12vGBc6kelgdMvgDXtCvnAVpwf3xIlXTQvU",
+              "widthPx": 4032,
+              "heightPx": 3024,
+              "authorAttributions": [
+                {
+                  "displayName": "Rosangela Røsnes",
+                  "uri": "https://maps.google.com/maps/contrib/117047873617434438843",
+                  "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocIlYv2myOQh1i_ecH-dZ1OFaSWSEXd3YDhh2ujgB8Wxe0wjrA=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgICZq8fa_AE&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgICZq8fa_AE!2e10!4m2!3m1!1s0x45c4c44966b5158b:0x1e0209d09c8cb7b"
+            }
+          ]
+        },
+        {
+          "timeInOut": "1:00 PM - 3:00 PM",
+          "description": "Join a tour with Chasing Lights to find the best spots for the Northern Lights.",
+          "userAction": "Prepare your camera for capturing the elusive auroras.",
+          "id": "ChIJvyIb1fLExEUR5PpZqLXn2Fw",
+          "formattedAddress": "Storgata 64A, 9008 Tromsø, Norway",
+          "location": {
+            "latitude": 69.6492383,
+            "longitude": 18.954983100000003
+          },
+          "rating": 4.8,
+          "displayName": { "text": "Chasing Lights" },
+          "photos": [
+            {
+              "name": "places/ChIJvyIb1fLExEUR5PpZqLXn2Fw/photos/ATKogpdX3wvUlQbyjT8NdySsvhVHM_BOsITL8DmWOwGL6kMibjHf0jTEZDrv50cuXTKBLrQC3fytSEGJUuuGovaUjmVHFMng52IIV8_czJ9e5W094QtnidlDFYcvk8-ZNxNgGVUQ4xbKVdX12_D9Cg6mDM6DF9d5kmUUX1PjP37pGgLEw4SQ8lUpYURr0yGENEySuX3ny4NGFFZBshQ8t27ZE4dW48NcARDLEL3VSYoK__xpJVqSrCBkjL8K8pcGCllyiABCvNsP94FlVZDJs-gkKTYcPOS8Gn8cb7JAzxzLQ1vevA",
+              "widthPx": 2048,
+              "heightPx": 1363,
+              "authorAttributions": [
+                {
+                  "displayName": "Chasing Lights",
+                  "uri": "https://maps.google.com/maps/contrib/116631852989836226766",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjXZ_M-nltwGzmZXCv2TiudZCezNU0U_626i7FoKHFroHn5BuLQ=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipOC-5xxMWi0P0SQfcRHYnebXufFkpvLW60usUOa&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipOC-5xxMWi0P0SQfcRHYnebXufFkpvLW60usUOa!2e10!4m2!3m1!1s0x45c4c4f2d51b22bf:0x5cd8e7b5a859fae4"
+            },
+            {
+              "name": "places/ChIJvyIb1fLExEUR5PpZqLXn2Fw/photos/ATKogpeigzhLhjVjI5VTvQ2PHFUsvF5HWOGrPcyli3CB0fa8JRMQWn4plWvx9bMvFuxvG1GMhl_JA9OC6_6McaHKgqOuhZCnm3QW5IlAnBgOHClJfn2HWXEpio4yZ5J38UAwG4qyZgFNf0UQA7wWYruzJ9ScSo9jsJUf1xnJPdp-VlHjrKqP0IljdbdLXR3nr33x6FpybH8mKeQnzUSSRMpOTxplbXKqjWbs2cvjkgLWvQjY-G3pTaP8XJyMKHfGj485yZDdCPKXvQLx17LUonOp1fIcx3JUdckABI7ZQV2I8AWLidayk8hflIjhLpGeCoiUAb0bxLbctfr3JVHt59Eehx7ZsKzdnB-GDZYnEXZIjrhGefk4kFVyWThG8QN1clRpQEZJ2DaubglJtXPu9308N80ri_mMyjWX4IUg8fcfh34gqg",
+              "widthPx": 1600,
+              "heightPx": 1200,
+              "authorAttributions": [
+                {
+                  "displayName": "Giuseppe “PINO E PATTY” Casale",
+                  "uri": "https://maps.google.com/maps/contrib/103232047755300399439",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjUfKD-APn2CCCrqQPB6r6EaPD7_OXGhwEbnQJCWPHQMdJDwRdCV=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgICf-s2XRQ&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgICf-s2XRQ!2e10!4m2!3m1!1s0x45c4c4f2d51b22bf:0x5cd8e7b5a859fae4"
+            }
+          ]
+        },
+        {
+          "timeInOut": "3:30 PM - 5:00 PM",
+          "description": "Visit Tromso Things To Do for an insightful introduction to Tromsø’s cultural gems.",
+          "userAction": "Gather tips for photography and local attractions.",
+          "id": "ChIJxd4-nQ3FxEURn474X7uK4Hc",
+          "formattedAddress": "Storgata, 9008 Tromsø, Norway",
+          "location": {
+            "latitude": 69.6512226,
+            "longitude": 18.957872599999998
+          },
+          "rating": 5,
+          "displayName": { "text": "Tromso Things To Do" },
+          "photos": [
+            {
+              "name": "places/ChIJxd4-nQ3FxEURn474X7uK4Hc/photos/ATKogpdSbspMDMF-VTsFDkGSXzCQGl7TciEGYYxtwy--WuUtaAdqzkvCQYJ9Q49oqGB6YL5saEoZHUE12_mWSqVGK4SNkToxIE7J-9gBQgb4AcGzHo2nFSpnhZ3KW98zHFFvkji0yKuZolI00p5gGS-MPXT8WS6x3RBKRVcD-aVdJ6O1h2fiPU01lgrj1YmOp9y1_x5tVM7ZAPBKu5ypTBXSezR8qLW_c1HsHxp_w64-2Oknmrk6e8IKdFJxF2-sFYvdnVwJO7Qw94bta4oEmK339XF0y3FSesCOoWhe5gYnoDwnrg",
+              "widthPx": 800,
+              "heightPx": 1200,
+              "authorAttributions": [
+                {
+                  "displayName": "Tromso Things To Do",
+                  "uri": "https://maps.google.com/maps/contrib/118116732389996781390",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjVCC9jyPaekM-PjHYrsKR4Yt03OgyrM47trHnXO9TAFmG4_vCo=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipMAgoanowrs-6pgKgWEfXFgmF6lDs00HHszRn6r&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipMAgoanowrs-6pgKgWEfXFgmF6lDs00HHszRn6r!2e10!4m2!3m1!1s0x45c4c50d9d3edec5:0x77e08abb5ff88e9f"
+            },
+            {
+              "name": "places/ChIJxd4-nQ3FxEURn474X7uK4Hc/photos/ATKogpedgK8eX4-mVyOq-xUIR7eqoihnp6zGVrOEhhPb01TDQgokPcsj5flNtKBdppsagbC29anxNpg65CqOiyHHKywcsAka55fH_1PYCIX5yEAlgqdWDsUSYdvEbTgWdH78JAF0wGD4Zr4zMfZEslhfitQGHUwLq4qwMrB3cy-8rI29JCz-KLWQG1UAt44PEeroSERgldHHgkHVpUj9i-_uk8peTfmiNr-RTiNM65z3FPeJudGTj7HGDJjbaF9ASHMvJ-kfp5Wt22jTNP88jvM87ERPjBx_T2GxoNXd9HzBQFGQTjVHiw8cwO-WaAXddWxchzdIFY6ynPAgglIRoIfFkZybVbsri0H_N6qQElDdYgcZwisVW7fmRNpTP3cMimC7POTUcHRA1wDeT529lHRIHZBg-N4VD5HHcrtkKHpMTe1uCHn_",
+              "widthPx": 4800,
+              "heightPx": 3200,
+              "authorAttributions": [
+                {
+                  "displayName": "Nicolas Coignard",
+                  "uri": "https://maps.google.com/maps/contrib/101668959532162706107",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjXC3Y2wXPgmQWch9QQ7XZv-EyU8TAcE49YwNkEedYgighmVLXV0=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEOT4_sCzlO3qywE&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEOT4_sCzlO3qywE!2e10!4m2!3m1!1s0x45c4c50d9d3edec5:0x77e08abb5ff88e9f"
+            }
+          ]
+        }
+      ],
+      "centerPoints": {
+        "latitude": 69.64840213963281,
+        "longitude": 18.959958230262565
+      }
+    },
+    {
+      "itinerary_title": "Cultural Delights and Scenic Landscapes",
+      "general_location": "Tromsø, Norway",
+      "description": "Delve deeper into Tromsø's vibrant culture and exquisite natural beauty over the next five days—perfect for photographers and nature lovers alike.",
+      "days": [
+        {
+          "timeInOut": "8:00 AM - 10:00 AM",
+          "description": "Start with a morning hike at Telegrafbukta, which offers stunning coastal views.",
+          "userAction": "Photograph the scenic coastline and unique rock formations.",
+          "id": "ChIJYSWWR77FxEURJCWVFa8nzS8",
+          "formattedAddress": "Unnamed Road 9006, Kvaløyvegen, 9006 Tromsø, Norway",
+          "location": {
+            "latitude": 69.63179269999999,
+            "longitude": 18.9074808
+          },
+          "rating": 4.7,
+          "displayName": { "text": "Telegrafbukta" },
+          "photos": [
+            {
+              "name": "places/ChIJYSWWR77FxEURJCWVFa8nzS8/photos/ATKogpeAxX1hWG_Yks8eRFnTaUZ5kNT4vBS3gtDKDo7vs1CzYAA6iqHgi9iCfxMdfV6_C85wYzU5v1Zx0B_6-M0NVlhwJ-dU0yuqWJYgYMpR3Ni7z5ao5rfU_yOjHxo5AAIZB-pnh4wQ0p7p3-mVo7RtqyyecnVWGCkheQmHMxICPuwusKL6TxJAkzUj_xz2jmMzNwrPsNKsD9_GrTQaoB3GQ6bHdWfsjwYCmiNRxvdf5avfCzEPqbU7SDVw51R5i9gpRdcB6j7sD9lWC7LoDMyXfYiTP9_WKLS5Cah_l4Ct8pYhH--M18L45hlJuFvI1qH7gG5_FDy_xu8ZDiD9zeEmjZyGNJqnROM-ksmXvjS_vWqCvrHZHMERv2tJ2z1un-ZzKbKO30i9rV59K_5RCDtXnGqBtJdGuGvJ6-LDo2rIyjxujXUT",
+              "widthPx": 4032,
+              "heightPx": 3024,
+              "authorAttributions": [
+                {
+                  "displayName": "mariona",
+                  "uri": "https://maps.google.com/maps/contrib/103451052634018585537",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjVSqsi9KMW7sEq1t62gSZe8VesIgHxc3H0_V0zyzwaxbm889zY=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgICeubnKpwE&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgICeubnKpwE!2e10!4m2!3m1!1s0x45c4c5be47962561:0x2fcd27af15952524"
+            },
+            {
+              "name": "places/ChIJYSWWR77FxEURJCWVFa8nzS8/photos/ATKogpcJ5yJFOdoY7zTZOm7NSCAKRAa3inlomCKfAAOQeh6S9x6RJD7NAwAp0qo9WfSmzr_qLvHD3oR-MAVk2Nm4XjjCdaW4zEYZNkaSmLxEufLCBSImzrxVZPKPHFjInFJYvdiyyaSBQfZCBnEb4Xt7tYUnprnQq4k0n1Ie6KZhCHuWkmxLxiFei_phXSyJUZ7wg-G25BJhHpSVZuixe3p79I32nF7gDhkNu0K4vTXMjtWWgywJAPTYlDiaVEPRjU2yKxuN_DarqJ83PI7SersAQpMiPyLspALBs404DQWpNNa5GYXshwyrxoDhpAFtJlxkkDXoqOsxZ8X7GmYQbKA5Bal-16_MgqgNqxDjJ3zhC_btQ7c1hvpFgdlUYpqBL6FLarWcks5asQ3KyGcEkM8dT8ODrqsffz0ZgfrTEbV8vQVSgA",
+              "widthPx": 3648,
+              "heightPx": 2736,
+              "authorAttributions": [
+                {
+                  "displayName": "Péter Marosi",
+                  "uri": "https://maps.google.com/maps/contrib/102788762702618596408",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjXkNGaqA5qjEY2NcLHrJ-5sJVilboa7GJS6QTaas3aFRtpCnAJa=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgIDs2vXQCQ&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDs2vXQCQ!2e10!4m2!3m1!1s0x45c4c5be47962561:0x2fcd27af15952524"
+            }
+          ]
+        },
+        {
+          "timeInOut": "10:30 AM - 12:00 PM",
+          "description": "Explore the rich flora and fauna at Folkeparken, an inviting park.",
+          "userAction": "Capture nature photos in a tranquil setting.",
+          "id": "ChIJD9IxL7_FxEURPgbmHfwPffg",
+          "formattedAddress": "Lars Thørings veg 24, 9006 Tromsø, Norway",
+          "location": {
+            "latitude": 69.63416590000001,
+            "longitude": 18.9051375
+          },
+          "rating": 4.6,
+          "displayName": { "text": "Folkeparken" },
+          "photos": [
+            {
+              "name": "places/ChIJD9IxL7_FxEURPgbmHfwPffg/photos/ATKogpdI8HV6P6cjzj6fTDw1O2E31IR6bqP1iBpCFQsy5hAW4lhWddfvz9fE8fUkPkJh3GPfNzZdqE6uf3DrxIAHMDFxoCpDeCDUdGurzeV6O5SDj24RKN23x71-y8JNPjTb0ZmUBGgqUiiQKYEPqz5VNih3A9OGoO1GM_jI3i2sp7zwCRukGq09eSYtnUARhdYAggs4kVQZNMmeYsc0vEvxYgmD5Mqf-MYZArpNZfK3yU4kq0WViL4cVJKBGsSjJjlcW1nSlPfJ214TzR5WBeRc-AsN-fZBu2zPmJkyvLLAOANkyB1usiI4cDoRbES1OXRy5E6lAGikriXz02sPAwfWefcfNh37_prS9x7mbaxlZYKTO7_EJQxyxJWUybt_kKyKQsgNVq379DH5HmQvaDfkuNKwy7uHntHZgRfmi-bFuD87Bfo",
+              "widthPx": 4032,
+              "heightPx": 2268,
+              "authorAttributions": [
+                {
+                  "displayName": "Damian Pukacz",
+                  "uri": "https://maps.google.com/maps/contrib/115469173400204893320",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjX-FW03SKnCBaQJI60T3fhXL5B4DAqB7I40Q9QomWpBJwC7aQ9HXA=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgID8n5rf_wE&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgID8n5rf_wE!2e10!4m2!3m1!1s0x45c4c5bf2f31d20f:0xf87d0ffc1de6063e"
+            },
+            {
+              "name": "places/ChIJD9IxL7_FxEURPgbmHfwPffg/photos/ATKogpesgrAChqKafeo8WjZay5yRvEzG5qJfWu1OCtQ6BF7Npdvr2xkLNMReW1BKkKxbWpP90PIGnhFFTdoIBDSQ6mg-NBWlqSxRWVB0P07w8IjpCtpB7uinadaW5Jl57mrdGLSzl95KNRZiw4yEY6mD_kxBIo9QhfGsf2tzjHfxXNQj9ov2wUG6sMLsCEPTVerGeS5KMqICF3z9AHeU26KpmywpQr8gd5iCkUjBWGmoTSPar8KTsAgtjbQBKOwZ2FKxOkMnG4QfYBrNWstVYeeNH-Tdv7D7CLSkywouGA8BpgMLpmgRCgTCqB8zPZ0KFHjwN-8LvQbR3DRq09iX6vd2X-u3cLcFCPH0ovEuDqsnkL_w_b1GhGzPhDQb-LDT4gZURdLyvQyjKe_zBIFbaM6nsToDavYNdfAQFT0zutELHERKzP-P",
+              "widthPx": 4624,
+              "heightPx": 2600,
+              "authorAttributions": [
+                {
+                  "displayName": "Thomas Bernstein",
+                  "uri": "https://maps.google.com/maps/contrib/102808583725102414187",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjXTBJfEQu38rL2FGdtVfunnCTObY-b-EH3wKcHoW_IqGclMNJbN=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgIC52ayG6AE&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIC52ayG6AE!2e10!4m2!3m1!1s0x45c4c5bf2f31d20f:0xf87d0ffc1de6063e"
+            }
+          ]
+        },
+        {
+          "timeInOut": "12:30 PM - 2:30 PM",
+          "description": "Witness the ethereal beauty of the Northern Lights with Polar Lights Photo Tours AS.",
+          "userAction": "Enhance your photography skills while chasing the auroras.",
+          "id": "ChIJ7aAaAwj_oGURAHpEtrlqjA8",
+          "formattedAddress": "Gammelgårdvegen 32, 9020 Tromsdalen, Norway",
+          "location": {
+            "latitude": 69.6265579,
+            "longitude": 18.954952499999997
+          },
+          "rating": 5,
+          "displayName": { "text": "Polar Lights Photo Tours AS" },
+          "photos": [
+            {
+              "name": "places/ChIJ7aAaAwj_oGURAHpEtrlqjA8/photos/ATKogpfsPgjYbENIY0bfOVCClUyrFBXIYA0FhaQSJRg0JfjTsJN5bE8PMQqhx374vBuHzYcW6x_7Yt78I12U6_Mpq-CHVnW7849XUnAKIOVqb5h_WQ05ZP0I7epgc8zDk-KD2OBbNDrqlsiXzfaiEIm1HGbR8ohU-bfXz8tTyyzRnesjvanxeTuWKBRytmU2RlMVeGPe1bCRdyJe9gSwiquk8Zp6gdzYELc8MENRtOPhQHI9C2mcw6G0v5zu8OisqM19ddqpTrwuecXBeErFMUECEa6yTfEKN87t6WhYqjeXDmWnVw",
+              "widthPx": 2048,
+              "heightPx": 1357,
+              "authorAttributions": [
+                {
+                  "displayName": "Polar Lights Photo Tours AS",
+                  "uri": "https://maps.google.com/maps/contrib/104601688176954417005",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjUZiH-wSrN2pm9_d14Jg1DfrcoEyJZHFjg2oMx37AR8nAPPnH0=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipO6S0fGxXdJlyLc8Lcy8eQmdOTnV7HqxxwPs2SD&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipO6S0fGxXdJlyLc8Lcy8eQmdOTnV7HqxxwPs2SD!2e10!4m2!3m1!1s0x65a0ff08031aa0ed:0xf8c6ab9b6447a00"
+            },
+            {
+              "name": "places/ChIJ7aAaAwj_oGURAHpEtrlqjA8/photos/ATKogpeYjxCa5oeaLFPgVIpJYtInTH0SEHGtafauqy03yU7nsn_p9pk56QM4LPdFMlwFG3mCS_cs3SGvOhS78wfU-i3ZoUFTk9S2V6QZG85t_MbIqMWxM8DtWKvJ0vn3WsOqYCQqArPzIbf9xY8uY2g4sfuugjhyl8vo6reGOKEnhmTmATo_3NKxREA3bX91_YlAmqJ0ey_ataPMbVP0TrS1Z2ji5Eij5wtbJE5rj8rvJUTi7Spd8Vo35S-YYQ72X3cX2YPwVb4ij9OUdR2K7Clk7aPxqxIBXQRCga2OXLEYkLJOLQ",
+              "widthPx": 2048,
+              "heightPx": 1367,
+              "authorAttributions": [
+                {
+                  "displayName": "Polar Lights Photo Tours AS",
+                  "uri": "https://maps.google.com/maps/contrib/104601688176954417005",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjUZiH-wSrN2pm9_d14Jg1DfrcoEyJZHFjg2oMx37AR8nAPPnH0=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipP5CBHt2jHm8zUmuMoT978l31-ZJ-uY2I2ywbew&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipP5CBHt2jHm8zUmuMoT978l31-ZJ-uY2I2ywbew!2e10!4m2!3m1!1s0x65a0ff08031aa0ed:0xf8c6ab9b6447a00"
+            }
+          ]
+        },
+        {
+          "timeInOut": "3:00 PM - 5:00 PM",
+          "description": "Enjoy interactive and engaging experiences with The Nature Bow Game.",
+          "userAction": "Participate in outdoor activities while capturing candid moments.",
+          "id": "ChIJfw4-kejFxEURuU8gJbIoRFs",
+          "formattedAddress": "Dramsvegen 129, 9010 Tromsø, Norway",
+          "location": { "latitude": 69.6664957, "longitude": 18.96296 },
+          "rating": 5,
+          "displayName": { "text": "The Nature Bow Game | Tromso excursions" },
+          "photos": [
+            {
+              "name": "places/ChIJfw4-kejFxEURuU8gJbIoRFs/photos/ATKogpfRnnPNAaXNfEmsKCnZ8yblgFGLcQ4dqNi5PipDybQznFuYK03XRbkgrz44Bkjc-RVGeWdorElZHt4rE-Rr2Om5R9gIW3M3FdnX-IDVe6-yJStU24W9bLXJY_bq6gzKFEzaJT0HWHifaOfjxghVx85fwSCgk2WNOuCe-kgWOmIVkcNaCfxHbSUL_ZT903JMTA-9NipTCJ3ArCda3NdssFl75KTGpqV2J8SYFejes1eB9pN9otRY-Zv-mvSJSs3XYTZT46a-cBGuHoL8ZGGzA5NpqlnChHAlNN4mh0FmouPkjg",
+              "widthPx": 1280,
+              "heightPx": 720,
+              "authorAttributions": [
+                {
+                  "displayName": "The Nature Bow Game | Tromso excursions",
+                  "uri": "https://maps.google.com/maps/contrib/113719297076043014339",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjWPKcAliT0UGXUfFeI-GpX6lpcX13PY3zekU90mcFw2xKNOs5A=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipORhs7gb8UQ4lTEUH93IHI8MGZkZqa5mo85I_dZ&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipORhs7gb8UQ4lTEUH93IHI8MGZkZqa5mo85I_dZ!2e10!4m2!3m1!1s0x45c4c5e8913e0e7f:0x5b4428b225204fb9"
+            },
+            {
+              "name": "places/ChIJfw4-kejFxEURuU8gJbIoRFs/photos/ATKogpeNDob1FAiSyTglUcGQ0BiJPE3DgrsCt0-ClRwFhXD-t7PQXtHrhwHdPaAhOMPhrGZWDIZK0zxT0H0Z7qjbOlhP4rAu50uSiOPa56O-i6ZcLzDHIzhJCjGmIaJrhs1tokRgPOg5y_0eKyonHi7NParTzkqvXKwP29WFJfaBIs4rAtwtuMZvk2aMevz8zZRGO0ZI_kHe_w7Sgih5gScIQmNrlfjyYjXAFqGBqTvrgcqmMpsqbyqAgWTlUH24iq6CzBLZdgamAYgcHxlxWnxaPmNZuIFrhYPmyzIJ3P1-Ovg7pA",
+              "widthPx": 4032,
+              "heightPx": 3024,
+              "authorAttributions": [
+                {
+                  "displayName": "The Nature Bow Game | Tromso excursions",
+                  "uri": "https://maps.google.com/maps/contrib/113719297076043014339",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjWPKcAliT0UGXUfFeI-GpX6lpcX13PY3zekU90mcFw2xKNOs5A=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipMDT-DbF7jjQ7vSuGeo0QBZnvY81LzMb4SpIjsH&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipMDT-DbF7jjQ7vSuGeo0QBZnvY81LzMb4SpIjsH!2e10!4m2!3m1!1s0x45c4c5e8913e0e7f:0x5b4428b225204fb9"
+            }
+          ]
+        }
+      ],
+      "centerPoints": {
+        "latitude": 69.63975504669249,
+        "longitude": 18.93262246579316
+      }
+    },
+    {
+      "itinerary_title": "Scenic Trails and Nighttime Wonders",
+      "general_location": "Tromsø, Norway",
+      "description": "Rediscover the awe-inspiring landscapes of Tromsø and embrace the Arctic's enchanting nighttime wonders with a fantastic photography itinerary.",
+      "days": [
+        {
+          "timeInOut": "8:00 AM - 10:00 AM",
+          "description": "Take in spectacular views at Mountain Viewpoint, a perfect spot to start your day.",
+          "userAction": "Capture panoramic images of Tromsø’s picturesque landscape.",
+          "id": "ChIJv5bheEfFxEURyKb_Kp7l-Fo",
+          "formattedAddress": "Bamsestien 10, 9016 Tromsø, Norway",
+          "location": { "latitude": 69.6547716, "longitude": 18.9219781 },
+          "rating": 4.7,
+          "displayName": { "text": "Mountain Viewpoint" },
+          "photos": [
+            {
+              "name": "places/ChIJv5bheEfFxEURyKb_Kp7l-Fo/photos/ATKogpeH5p0xHwpt4s418fuBkw_bTVdrBNSDVoe7UGdZlWxdp2WbOP8FmHQR5XTkCLG78qE5zNgY7-8UtauwA9ZQ7hF2MeKsKtz4Ar8xH7RR2MWIcSFj0Y6dRKbqvfbOujsbUSXN7VlucLO67Zj8S-bZldy6S4Rn6gM5pa4lOkXt9FcBqnwPbFiurGWEJl31OOYMm0Y6cYUoff0jh9k-x5sGukEMGF6_ccn34ywZBRuQH4CImqMXkIiih9ZDJosVm7b8sxbUhBwHicPVkKvWCaoa_vW16Qmtf3YgxEyZ_k2LZqCsdMc5DalmrQoCaNXVxdNfR1kFeUeiiuKFV4gxMtClWetmzh8hiIGNWJ-T2WfozuGpS2mPySwlTsUZ7wHKawGPq49H2QqK4qBAuZJLp2q5zAdc2-hUbEV4qDMC71RjeirRHg",
+              "widthPx": 3024,
+              "heightPx": 4032,
+              "authorAttributions": [
+                {
+                  "displayName": "pravit p.",
+                  "uri": "https://maps.google.com/maps/contrib/114405248340815329646",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjX19F8kCzm-5E9CfVmFy8Nn31F8xZyvBlQXrfsIkNrRNevIaTM_=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgMCwq6ChRA&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgMCwq6ChRA!2e10!4m2!3m1!1s0x45c4c54778e196bf:0x5af8e59e2affa6c8"
+            },
+            {
+              "name": "places/ChIJv5bheEfFxEURyKb_Kp7l-Fo/photos/ATKogpdnb7-kvNOTl-bAC0BgHAmPnIMds4x9d75J9o6BDeFPqTqrWQlCCXb8OzaLNdTTaFSYSgFt0_9yW8ILk3Ak6QEOcqAhUXeFWLXEXw_2Wb2LdP9Ep5oM7-xffPIbjWza9hAwZuQeKK2VE_8s86p7WC28h06ydn411zTqEJGevWnNSnsiG_J_MNbu45e1UimJnPOJz_CQXU-NqBFvkxtbY0rOJzHvdBH2sCxsPIwofga6njDNl3b-Sg1qKC7sy99Pc_HWXw4z19recIaCS4LiRwgZTYD0mWs7gZ92NlGZ0w12X0coXBTMARFyYEsAHXwDz4prmntrJV3rb_EFkTxYj--m1EnCmBmStBGAFyCteYyVW4AxDNTddsgJmVR4AiU0BfSBB5_pnPfSwvUbkdm_L9O2Kgw7zlv2hkI3SvHMOi0",
+              "widthPx": 4032,
+              "heightPx": 3024,
+              "authorAttributions": [
+                {
+                  "displayName": "Zack Pilz",
+                  "uri": "https://maps.google.com/maps/contrib/106016567123893180885",
+                  "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocJBff1c6aDvZ38jDUofogBlz5lS-_zyM85oEC9GwRYtEz3JQQ=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgMDw0O6NBA&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgMDw0O6NBA!2e10!4m2!3m1!1s0x45c4c54778e196bf:0x5af8e59e2affa6c8"
+            }
+          ]
+        },
+        {
+          "timeInOut": "10:30 AM - 12:30 PM",
+          "description": "Relax at Arctic Circle Tours Tromsø, a cultural showcase that highlights local heritage.",
+          "userAction": "Engage in conversation and take portraits of the local artisans.",
+          "id": "ChIJXX-TggHFxEUR2V6ckVKM-Vk",
+          "formattedAddress": "Skolegata 24, 9008 Tromsø, Norway",
+          "location": { "latitude": 69.6505947, "longitude": 18.949986 },
+          "rating": 4.9,
+          "displayName": { "text": "Arctic Circle Tours Tromsø" },
+          "photos": [
+            {
+              "name": "places/ChIJXX-TggHFxEUR2V6ckVKM-Vk/photos/ATKogpcMaPfaUb7huui-eF0HsjyGLSed3J72QZhKGkdY-CgAy-nr2zB09IS-0nrZw93JTvQC1_GBctcRSCE48JwrrRQRH05Gd2jKu8X0T1zILNqAd11eZm842ONdjLwIUOjyYBceKDuGQOVrZU_8W96ePl-q4lQ-Fdv7jNDYxJsf_E8Sm6eilreDgOZBdX4lclohdyWHXnCkuBMprgV3hmL24KQMNvcchbGLF7IZbiYwhp1VZ8-OqovJQCcta0E1nu88fzc2ZrKm0NoLon2p-NZWJppxDErYT20cQW_UaiRzNiqf3w",
+              "widthPx": 4240,
+              "heightPx": 2832,
+              "authorAttributions": [
+                {
+                  "displayName": "Arctic Circle Tours Tromsø",
+                  "uri": "https://maps.google.com/maps/contrib/104193572934632384646",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjXCLPMO7YChxLCPDDqylwOU63mJnvf-OIYIv_mMJFoBeOheRb4=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipMYR8LT64BjXtnb2PqdDhbS65LdD0e48OgPdukb&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipMYR8LT64BjXtnb2PqdDhbS65LdD0e48OgPdukb!2e10!4m2!3m1!1s0x45c4c50182937f5d:0x59f98c52919c5ed9"
+            },
+            {
+              "name": "places/ChIJXX-TggHFxEUR2V6ckVKM-Vk/photos/ATKogpdHeDps15Sg2eOQlVmp6BxcbJf6velL81fyGadHSkxKCSisth_2rlrMpVQlwhW8UqsKch7FEXK_LaC17i72L0U9NLJBxUgyWrTWAIy5OSQycHbT79RktY20GEcM1sp3Y612VqCYCq3uXXQ7UJhH3U4At5kNoE0N3J1TDzEhh9igsbXd1dpGZz7YXAexG9Q2EoTYKMsODmtn0bS6SBg2bIQ-0CtFlTTYEx8TMlhOwmME-FvBe-ybhJWr66VkiDB87qgXCJuIqQXC0KiyidH837yCm2vpnw2IfDvtiyntylHLHCLZbNFUlN5pBxnyUBQGril9DdyvtU-ZeBiTy-O71DYE2KiXXcMVhjVdto5YBIJb09NoEkrraShe7cgsZz8XMyuab8mesMdifObD1eaIYcQlN457IsVXvzVVQuD2QHkE6Q",
+              "widthPx": 4032,
+              "heightPx": 3024,
+              "authorAttributions": [
+                {
+                  "displayName": "Mari",
+                  "uri": "https://maps.google.com/maps/contrib/117641220403214680146",
+                  "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocJ4AjSjc78muK2ejYJMUEUcNWXbjH9SKiCQmlI9hseKmHra7w=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgMDwmL3ZLA&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgMDwmL3ZLA!2e10!4m2!3m1!1s0x45c4c50182937f5d:0x59f98c52919c5ed9"
+            }
+          ]
+        },
+        {
+          "timeInOut": "1:00 PM - 3:00 PM",
+          "description": "Uncover outdoor wonders with Legendary Adventure, offering fantastic tours in the Arctic’s wild terrains.",
+          "userAction": "Experience thrilling outdoor activities while documenting your journey.",
+          "id": "ChIJhchjrGHFxEURMUJ2_Sd1who",
+          "formattedAddress": "Strandvegen 110a, 9006 Tromsø, Norway",
+          "location": {
+            "latitude": 69.6358192,
+            "longitude": 18.930981300000003
+          },
+          "rating": 4.9,
+          "displayName": { "text": "Legendary Adventure" },
+          "photos": [
+            {
+              "name": "places/ChIJhchjrGHFxEURMUJ2_Sd1who/photos/ATKogpeNlUvDUacWIp23mbqX2JjRUvdMODyTOR7pxUFXQTfpfRal2vIZyMiSvNrBAsJlj-eIshb6Ra8NxqKUosvMrZN_EDEwpGRtqrU71XB3tqVxnn393iuzRHCieayBKVp9MfZZ1XLLTY2smKyVpkctZzBPinfS4X-jY0SfEgarO1WFqAthoBi7loYaXUgbNy5aIDVahwNfGPsB7CJsa3qoUm6qoqFBJJ5UQbKTqrqjrShGijCbnL0wYsK9oXq_g3gdOa8uHL0BPLDbWHB5bPt_-XtP9pT6TLXkNbNGve16BEjwLA",
+              "widthPx": 4800,
+              "heightPx": 3189,
+              "authorAttributions": [
+                {
+                  "displayName": "Legendary Adventure",
+                  "uri": "https://maps.google.com/maps/contrib/100624773952375846388",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjWGaHRjAh2tlecHQaVzYhwsr56OkH2OYeQiCRNvta0atP8SPGM=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipP8zg9zrU6bsZQ5y3vWAAvOhaBxWWVF4Kf2n1Bq&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipP8zg9zrU6bsZQ5y3vWAAvOhaBxWWVF4Kf2n1Bq!2e10!4m2!3m1!1s0x45c4c561ac63c885:0x1ac27527fd764231"
+            },
+            {
+              "name": "places/ChIJhchjrGHFxEURMUJ2_Sd1who/photos/ATKogpfnqZZ0z4sisEo2heAlg0vKUxZPUHJp3pdWDTcm31pD4Z2UAf2nq6fDtYyfPrcS9CJseu07zq7psBIPXms7GNj-wkB6BViNKM-iFVXT9bq9uIf81SPuaN_ucZ7BlRMWypVZGomLcguo1bCQLAoSEtVDE-mhF80XmYMDHHJTyX8oUlxR0jH95Glltq84SDOxLKFGga6t5lRpK3STIXH_4rScvfKzU7AksWsAuZb1-T-hGXN0hOz7AicG3Mb918N2PYbJvxZWMPYYY543d0WU4RD6eRsYBbDtyNQJV8u6gGNMQmKuHnwYdZFoi1JDthFMo497jBqr1QU-h-yA2f40zKIqJ-paQg0OsbMqxLKCuSiERt_CQPc-btvo2jmAoT0iraDNQaed2NYYuBDXYTeYyP0pVm9S2pf-hud8KDjvjQj4gQ",
+              "widthPx": 2048,
+              "heightPx": 1536,
+              "authorAttributions": [
+                {
+                  "displayName": "Tomas Ahnebrink",
+                  "uri": "https://maps.google.com/maps/contrib/108360883881609946429",
+                  "photoUri": "https://lh3.googleusercontent.com/a/ACg8ocLfxHq95DawEmkWDMkhRcM2zIqvF88gLPwSB3mhFOEvCvVpdA=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgMDwmOyeLQ&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgMDwmOyeLQ!2e10!4m2!3m1!1s0x45c4c561ac63c885:0x1ac27527fd764231"
+            }
+          ]
+        },
+        {
+          "timeInOut": "3:30 PM - 5:00 PM",
+          "description": "End your day with a tour from Enjoy the Arctic, perfect for final evening shots.",
+          "userAction": "Stand ready for those magical Northern Lights moments.",
+          "id": "ChIJ7VpE17LFxEURCcrrPMjJEpw",
+          "formattedAddress": "Grimsbyvegen 60, 9011 Tromsø, Norway",
+          "location": { "latitude": 69.6651728, "longitude": 18.9566219 },
+          "rating": 4.9,
+          "displayName": { "text": "Enjoy the Arctic" },
+          "photos": [
+            {
+              "name": "places/ChIJ7VpE17LFxEURCcrrPMjJEpw/photos/ATKogpepMUpGef5IzigxI3LtXLtdgF8Byez5iE9Ka11E6UPSkDryLVqa0owkVB-ZOqJ6C9XYD-gNc7VEspGX50t1O0IagbRtkwWHmGzR-KF3E4LtxrS19kV_BIM-7TSXxIsLovTTqcn6hG_dfwm5X1l3hVdemLxyBHgwgQFFzhvsTf1E5WBhmLwz7Dyl2TtcpIoZ-ItBywiOJFUvnZ36SHBT7CLfaNEYS9rryf7N-FR7n8imSfAq6tuf80pF1t6G3hb4Pu8BbUe0lTkkkH8AEH8I97dBHXtjedk_nsLn09sDD_HhHg",
+              "widthPx": 1440,
+              "heightPx": 809,
+              "authorAttributions": [
+                {
+                  "displayName": "Enjoy the Arctic",
+                  "uri": "https://maps.google.com/maps/contrib/100752442353161929364",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjVlsXVv6nJhDS1ZO_3A_Vao2VfsG_YA1F8B1qx0ino64-L1D4r9=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sAF1QipODzL3bODW0Wxww0PNSXRNy6E0u1f3zzq71ZaDS&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipODzL3bODW0Wxww0PNSXRNy6E0u1f3zzq71ZaDS!2e10!4m2!3m1!1s0x45c4c5b2d7445aed:0x9c12c9c83cebca09"
+            },
+            {
+              "name": "places/ChIJ7VpE17LFxEURCcrrPMjJEpw/photos/ATKogpcTQ9M69oqvNVv0nYVk9-1M8wJYtU5k7qw56nUwWwWEayyxys0V36ajgGb3BLWyMnx3NIxRSu55tX4xQo-80k9BpVdWDbUxQlbwDUsKA71UajsX9ceDrAp1x98id3MgYU47rcCLxI2DPjldTcuJNjN8YrGeM2Au3T2DfwFdUK4wfnZR680j71PoizB3Gavlq1iOreXEmBYwIH1zbxcw-7eXTjSxZ65iokVl4Kb6lZpE6f-4W8y_m5WuA1q8BHqSCckWVMAH2tTkxmnK7fcK9tRX3jqeX1DlZtCqVmKEsno0wyL2DN035lqKI3P8eV5NmzcJZ-dkCJi-SkDUx841meoHbp7jEqAbWV1OhsSRnoJ3snpslC7zJSam7-BeIS0AJUUywB-4YEMdcrWs7qu57Brw5j5kmTS-TI2fyDcUWH0TkLL4",
+              "widthPx": 1280,
+              "heightPx": 960,
+              "authorAttributions": [
+                {
+                  "displayName": "Patricia Garcia Rocha",
+                  "uri": "https://maps.google.com/maps/contrib/105630256374720719486",
+                  "photoUri": "https://lh3.googleusercontent.com/a-/ALV-UjXCkj1EIdd0hx1jsZ8P08FXpWbaA8zwJSsFLrJFD8KE25VLb_yU=s100-p-k-no-mo"
+                }
+              ],
+              "flagContentUri": "https://www.google.com/local/imagery/report/?cb_client=maps_api_places.places_api&image_key=!1e10!2sCIHM0ogKEICAgIDvzNWtgwE&hl=en-US",
+              "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDvzNWtgwE!2e10!4m2!3m1!1s0x45c4c5b2d7445aed:0x9c12c9c83cebca09"
+            }
+          ]
+        }
+      ],
+      "centerPoints": {
+        "latitude": 69.65159013118652,
+        "longitude": 18.93988828692672
+      }
+    }
+  ]
+}
