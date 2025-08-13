@@ -5,9 +5,7 @@ const logout = (req, res) => {
     sameSite: process.env.MODE === "PRODUCTION" ? "None" : "Lax",
     path: "/",
     domain:
-      process.env.MODE === "PRODUCTION"
-        ? ".whereshouldivacation.com"
-        : undefined,
+      process.env.MODE === "PRODUCTION" ? process.env.SERVER_URL : undefined,
   });
 
   return res.status(200).json({

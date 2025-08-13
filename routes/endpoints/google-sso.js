@@ -70,7 +70,7 @@ const googleSSO = async (req, res) => {
         path: "/",
         domain:
           process.env.MODE === "PRODUCTION"
-            ? ".whereshouldivacation.com"
+            ? process.env.SERVER_URL
             : undefined,
       });
       res.cookie("refreshToken", refreshToken, {
@@ -81,7 +81,7 @@ const googleSSO = async (req, res) => {
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         domain:
           process.env.MODE === "PRODUCTION"
-            ? ".whereshouldivacation.com"
+            ? process.env.SERVER_URL
             : undefined,
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       });
@@ -110,7 +110,7 @@ const googleSSO = async (req, res) => {
         path: "/",
         domain:
           process.env.MODE === "PRODUCTION"
-            ? ".whereshouldivacation.com"
+            ? process.env.SERVER_URL
             : undefined,
       });
       res.cookie("refreshToken", refreshToken, {
@@ -121,7 +121,7 @@ const googleSSO = async (req, res) => {
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         domain:
           process.env.MODE === "PRODUCTION"
-            ? ".whereshouldivacation.com"
+            ? process.env.SERVER_URL
             : undefined,
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       });
