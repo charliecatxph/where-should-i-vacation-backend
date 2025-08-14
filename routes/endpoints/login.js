@@ -73,9 +73,10 @@ const login = async (req, res) => {
       token: accessToken,
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({
       code: "SERVER_ERROR",
-      err: err.message,
+      err: e.message,
     });
   }
 };
