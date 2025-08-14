@@ -54,8 +54,8 @@ const login = async (req, res) => {
       secure: process.env.MODE === "PRODUCTION",
       sameSite: process.env.MODE === "PRODUCTION" ? "None" : "Lax",
       path: "/",
-      domain:
-        process.env.MODE === "PRODUCTION" ? process.env.SERVER_URL : undefined,
+      // domain:
+      //   process.env.MODE === "PRODUCTION" ? process.env.SERVER_URL : undefined,
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -63,8 +63,8 @@ const login = async (req, res) => {
       sameSite: process.env.MODE === "PRODUCTION" ? "None" : "Lax",
       path: "/",
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      domain:
-        process.env.MODE === "PRODUCTION" ? process.env.SERVER_URL : undefined,
+      // domain:
+      //   process.env.MODE === "PRODUCTION" ? process.env.SERVER_URL : undefined,
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     });
 

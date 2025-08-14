@@ -4,8 +4,8 @@ const logout = (req, res) => {
     secure: process.env.MODE === "PRODUCTION",
     sameSite: process.env.MODE === "PRODUCTION" ? "None" : "Lax",
     path: "/",
-    domain:
-      process.env.MODE === "PRODUCTION" ? process.env.SERVER_URL : undefined,
+    // domain:
+    //   process.env.MODE === "PRODUCTION" ? process.env.SERVER_URL : undefined,
   });
 
   return res.status(200).json({
