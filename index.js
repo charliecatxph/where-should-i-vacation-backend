@@ -9,7 +9,6 @@ const master = require("./routes/master");
 const stripe = require("./routes/stripe/stripe");
 const cookieParser = require("cookie-parser");
 const { runCacheCleanup } = require("./cron/cleanupOldCache");
-const { getSphericalCenter } = require("./routes/endpoints/generate-itinerary");
 const amadeus = require("./dependencies/amadeus");
 const amadeusLimiter = require("./dependencies/rate-limiters/globalAmadeusLimiter");
 const gcpLimiter = require("./dependencies/rate-limiters/globalGCPlimiter");

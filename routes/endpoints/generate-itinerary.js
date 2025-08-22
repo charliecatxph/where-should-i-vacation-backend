@@ -114,7 +114,7 @@ const processPlace = async (placeData, cachePlace) => {
         .collection("cached_places")
         .doc(placeData.id)
         .set(normalized, { merge: true })
-        .then((d) => {})
+        .then((d) => { })
         .catch((e) => {
           console.log(e);
           throw new Error("Fail to cache place.");
@@ -184,36 +184,6 @@ const processPlace = async (placeData, cachePlace) => {
   }
 };
 
-const getSphericalCenter = (coords) => {
-  if (!coords.length) return null;
-
-  let x = 0,
-    y = 0,
-    z = 0;
-
-  coords.forEach(({ latitude, longitude }) => {
-    const latRad = (latitude * Math.PI) / 180;
-    const lngRad = (longitude * Math.PI) / 180;
-
-    x += Math.cos(latRad) * Math.cos(lngRad);
-    y += Math.cos(latRad) * Math.sin(lngRad);
-    z += Math.sin(latRad);
-  });
-
-  const total = coords.length;
-  x /= total;
-  y /= total;
-  z /= total;
-
-  const hyp = Math.sqrt(x * x + y * y);
-  const latRad = Math.atan2(z, hyp);
-  const lngRad = Math.atan2(y, x);
-
-  return {
-    latitude: (latRad * 180) / Math.PI,
-    longitude: (lngRad * 180) / Math.PI,
-  };
-};
 
 const generateItinerary = async (req, res) => {
   const { what, when, where, what_preferred = "", uuid } = req.query;
@@ -237,7 +207,7 @@ const generateItinerary = async (req, res) => {
       });
     }
 
-    if (!when.trim() || !what.trim() || !where.trim()) {
+    if (!when.trim() || !what.trim()) {
       return res.status(400).json({
         code: "PARAMETERS_INCOMPLETE",
       });
@@ -265,20 +235,21 @@ You are a helpful and friendly AI assistant working for a travel agency.
 Your task:  
 Given the following inputs:
 
-- where: a location or landmark (can be broad or specific)  
+- where: a location or landmark (can be broad, specific, or empty/blank)  
 - what: the type of place or activity the user is interested in  
 - what_preferred: optional parameters or preferences, separated by commas  
 
-Return a single JSON array with one object, in the exact format below:
+Return a single JSON object in the exact format below:
 
 {
-  query: ["query1", "query2", "query3"],
-  actualUserIntent: "Concise interpretation of what the user wants based on the input"
+  "query": ["query1", "query2", "query3"],
+  "actualUserIntent": "Concise interpretation of what the user wants based on the input"
 }
 
 Important rules:
 
-- The result must be a valid JSON (parsable via JSON.parse).
+- **CRITICAL**: If the [Where] input is empty or blank, you MUST choose a popular, well-known tourist destination (e.g., Paris, Tokyo, New York, London, Rome, Bali, etc.) and include it in the "gen_where" field. Base your choice on what would pair well with the [What] and [What Preferred] inputs.
+- The result must be a valid JSON (parsable via JSON.parse). It must start with { and end with }.
 - Do NOT return any explanation, formatting, or text outside the object.
 - Each query must be uniquely phrased and should result in different types of results in Google Maps.
 - Do not repeat the same activity in all queries (e.g., not "surfing" three times).
@@ -288,17 +259,14 @@ Important rules:
 - If input is vague (e.g., "anything" or "surprise me"), use popular and varied activities.
 
 Inputs:  
-Where: ${where.trim()}  
+Where: ${where.trim() || '[EMPTY - Please choose a popular destination]'}  
 What: ${what.trim()}  
 What Preferred: ${what_preferred.trim()}
    `;
     const aiResult = await openAI_4o_mini(parseForGMAPS_API);
-    let ix = 0,
-      ix2 = 0;
     const places = await Promise.all(
       JSON.parse(aiResult).query.map(async (placeId, i) => {
         const x = await gcpMaps_textSearch(placeId, 20);
-        ix2++;
         return x;
       })
     );
@@ -321,146 +289,172 @@ What Preferred: ${what_preferred.trim()}
     const placesData = await Promise.all(
       placesFlatDedupe.map(async (placeId, i) => {
         const x = await processPlace({ id: placeId });
-        ix++;
         return x;
       })
     );
 
     const poiList = placesData
       .map((place, i) => {
-        return `${i + 1}. ${place.displayName.text} (${
-          place.location.latitude
-        }, ${place.location.longitude}, ${place?.rating || "N/A"}) [${
-          place.id
-        }] [${place.types?.join(",") || ""}]`;
+        return `${i + 1}. ${place.displayName.text} (${place.location.latitude
+          }, ${place.location.longitude}, ${place?.rating || "N/A"}) [${place.id
+          }] [${place.types?.join(",") || ""}]`;
       })
       .join("\n");
 
     const parseForItineraryGeneration = `
-You are a travel planning assistant creating travel itineraries for a client.
+    You are a travel planning assistant creating travel itineraries for a client.
 
-You will be given a list of ~30+ POIs in this format:
-"1. Place Name (latitude, longitude, rating) [place_id] [place_type]"
+    You will be given a list of ~30+ POIs in this format:
+    "1. Place Name (latitude, longitude, rating) [place_id] [place_type]"
 
-GUIDELINES:
-- Create an array of exactly 1 itinerary.
-- Each itinerary must have a "schedule" property containing exactly X amount of days, depending on the Date Range provided.
-- Each day object must contain an array of 3-5 activity objects.
-- Group POIs by proximity to reduce transit time.
-- Exclude hotels and accommodations (filter by place_type; omit anything that implies lodging).
-- Favor highly rated places (5.0 is best). Treat "N/A" neutrally.
-- Diversify daily experiences based on user intent; avoid clustering highly similar activities on the same day.
-- Stay practical: start no earlier than 8:00 AM, end before 6:00 PM. Ignore night-focused activities.
+    GUIDELINES:
+    - Create an array of exactly 1 itinerary.
+    - Each itinerary must have a "schedule" property containing exactly X amount of days, depending on the Date Range provided.
+    - Each day object must contain an array of 3-5 activity objects.
+    - Group POIs by proximity to reduce transit time.
+    - Exclude hotels and accommodations (filter by place_type; omit anything that implies lodging).
+    - Favor highly rated places (5.0 is best). Treat "N/A" neutrally.
+    - Diversify daily experiences based on user intent; avoid clustering highly similar activities on the same day.
+    - Stay practical: start no earlier than 8:00 AM, end before 6:00 PM. Ignore night-focused activities.
 
- USER WARNING LOGIC (MUST SET "user_warn" FIELD):
- - Analyze how geographically spread out the provided POIs are using their latitude and longitude (IMPORTANT).
- - If POIs are spread widely across multiple cities/regions (i.e., would imply long transit times between days), or if the input "Where" appears broad (e.g., country/large region), set a friendly warning in "user_warn" to encourage narrowing the search. Example: "Heads up: that location covers a wide area. For a more tailored itinerary, try a specific city or neighborhood (e.g., 'Reykjavík' instead of 'Iceland')."
- - Otherwise, if the user's input seems specific (e.g., a city) and the POIs cluster in one metro area, return an empty string for "user_warn".
+    USER WARNING LOGIC (MUST SET "user_warn" FIELD):
+    - Analyze how geographically spread out the provided POIs are using their latitude and longitude (IMPORTANT).
+    - If POIs are spread widely across multiple cities/regions (i.e., would imply long transit times between days), or if the input "Where" appears broad (e.g., country/large region), set a friendly warning in "user_warn" to encourage narrowing the search. Example: "Heads up: that location covers a wide area. For a more tailored itinerary, try a specific city or neighborhood (e.g., 'Reykjavík' instead of 'Iceland')."
+    - Otherwise, if the user's input seems specific (e.g., a city) and the POIs cluster in one metro area, return an empty string for "user_warn".
 
-HARD CONSTRAINT: UNIQUE place_id ACROSS ENTIRE ITINERARY
-- Days must depend on how much days is stated, base on the Date Range input STRICTLY.
-- The "id" field in every activity MUST be unique across the entire itinerary (all days combined). No id may appear more than once anywhere in schedule[].activities[].
-- Id matching uses exact, case-sensitive string equality.
-- Use only ids that exist in the provided POIs list. Do not modify, truncate, reformat, or invent ids.
-- Validation procedure you MUST perform before returning JSON:
-  1) Create a set S = {}.
-  2) Iterate days 1..x days, activities in order. For each activity:
-     - If activity.id ∉ S and is present in the POIs list, add it to S and keep the activity.
-     - If activity.id ∈ S OR the id is not found in the POIs list, REPLACE it with a different id from the POIs list that is not in S and fits the day's theme/proximity. Update the activity's description/time accordingly.
-     - If no unused POI exists, remove the conflicting activity and instead select another unused POI from the list. Maintain 3–5 activities per day where possible. Never reintroduce a duplicate.
-  3) After replacements, re-scan all activities across all days and assert there are 0 duplicates. If any duplicate remains, fix it before returning. Never return JSON with duplicate ids.
-- Max Date Range input is 7 days.
+    HARD CONSTRAINT: UNIQUE place_id ACROSS ENTIRE ITINERARY
+    - Days must depend on how much days is stated, base on the Date Range input STRICTLY.
+    - The "id" field in every activity MUST be unique across the entire itinerary (all days combined). No id may appear more than once anywhere in schedule[].activities[].
+    - Id matching uses exact, case-sensitive string equality.
+    - Use only ids that exist in the provided POIs list. Do not modify, truncate, reformat, or invent ids.
+    - Validation procedure you MUST perform before returning JSON:
+      1) Create a set S = {}.
+      2) Iterate days 1..x days, activities in order. For each activity:
+        - If activity.id ∉ S and is present in the POIs list, add it to S and keep the activity.
+        - If activity.id ∈ S OR the id is not found in the POIs list, REPLACE it with a different id from the POIs list that is not in S and fits the day's theme/proximity. Update the activity's description/time accordingly.
+        - If no unused POI exists, remove the conflicting activity and instead select another unused POI from the list. Maintain 3–5 activities per day where possible. Never reintroduce a duplicate.
+      3) After replacements, re-scan all activities across all days and assert there are 0 duplicates. If any duplicate remains, fix it before returning. Never return JSON with duplicate ids.
+    - Max Date Range input is 7 days.
 
-Output format:
-Return an array of 1 object, in this structure:
+    Output format:
+    Return an array of 1 object, in this structure:
 
-[
-  {
-    "user_warn": "",
-    "itinerary_title": "Engaging and descriptive title",
-    "general_location": "Area or region covered",
-    "description": "Summary inviting the user to explore this plan",
-    "schedule": [
+    [
       {
-        "day": 1,
-        "activities": [
+        "user_warn": "",
+        "itinerary_title": "Engaging and descriptive title",
+        "general_location": "Area or region covered",
+        "description": "Summary inviting the user to explore this plan",
+        "schedule": [
           {
-            "timeInOut": "HH:MM - HH:MM (12h format, e.g., 9:00 AM - 11:00 AM)",
-            "description": "Short, vivid summary of the place",
-            "userAction": "What the user should do here (reflect user intent)",
-            "id": "place_id of the corresponding place"
+            "day": 1,
+            "activities": [
+              {
+                "timeInOut": "HH:MM - HH:MM (12h format, e.g., 9:00 AM - 11:00 AM)",
+                "description": "Short, vivid summary of the place",
+                "userAction": "What the user should do here (reflect user intent)",
+                "id": "place_id of the corresponding place"
+              },
+              ...
+            ]
           },
           ...
+          // Days depends on X days, through Date Range input.
         ]
       },
-      ...
-      // Days depends on X days, through Date Range input.
     ]
-  },
-]
 
-STRICT OUTPUT RULES:
-- OUTPUT ONLY PURE JSON PARSABLE BY JSON.parse(). NO BACKTICKS, NO MARKDOWN, NO EXPLANATIONS. MUST START WITH [ AND END WITH ].
-- The "id" values MUST be copied verbatim, STRICTLY from the POIs list. Do not alter characters or casing. Do not invent ids.
-- Do NOT include any extra fields or text beyond the structure shown above.
-- Max Date Range is 7 days. Always follow the Date Range input.
-- Absolutely do not use the activity twice or more on an itinerary. If it is a more active activity, adjust time range as needed.
+    STRICT OUTPUT RULES:
+    - OUTPUT ONLY PURE JSON PARSABLE BY JSON.parse(). NO BACKTICKS, NO MARKDOWN, NO EXPLANATIONS. MUST START WITH [ AND END WITH ].
+    - The "id" values MUST be copied verbatim, STRICTLY from the POIs list. Do not alter characters or casing. Do not invent ids.
+    - Do NOT include any extra fields or text beyond the structure shown above.
+    - Max Date Range is 7 days. Always follow the Date Range input.
+    - Absolutely do not use the activity twice or more on an itinerary. If it is a more active activity, adjust time range as needed.
 
-User Intent:
-${JSON.parse(aiResult).actualUserIntent}
+    User Intent:
+    ${JSON.parse(aiResult).actualUserIntent}
 
-POIs:
-${poiList}
+    POIs:
+    ${poiList}
 
-Date Range:
-${when}
+    Date Range:
+    ${when.trim()} in format "YYYY-MM-DD - YYYY-MM-DD"
     `;
 
     const itineraryList = await openAI_4o_mini(parseForItineraryGeneration);
 
     // Parse raw itineraries and perform duplicate ID check on the first itinerary
-    const rawItineraries = JSON.parse(itineraryList);
+    const itinerary = JSON.parse(itineraryList)[0];
+    const parseForPlaceParameterGeneration = `
+    You’re a helpful and friendly AI assistant for a travel agency. Given:
 
-    let itineraries = rawItineraries.map((itinerary) => {
-      return {
-        ...itinerary,
-        schedule: itinerary.schedule.map((day) => {
-          return {
-            ...day,
-            activities: day.activities.map((activity) => {
-              const placeIndex = placesData.findIndex(
-                (place) => place.id === activity.id
-              );
-              if (placeIndex === -1) return activity; // fallback if not found
-              const { types, name, ...clean } = placesData[placeIndex];
-              return {
-                ...activity,
-                ...clean,
-                photos: clean?.photos?.slice(0, 2) || [],
-              };
-            }),
-          };
-        }),
-      };
-    });
-    // itineraries.forEach((itinerary, i) => {
-    //   itineraries[i].centerPoints = {
-    //     ...getSphericalCenter(
-    //       itinerary.schedule.flatMap((day) =>
-    //         day.activities.map((activity) => ({
-    //           latitude: activity.location.latitude,
-    //           longitude: activity.location.longitude,
-    //         }))
-    //       )
-    //     ),
-    //   };
-    // });
+    - general location: a relative or absolute location  
+    - user_intent: an absolute or relative summarization of what the user wants to do
+    - when: the date range of the trip
+
+    Your job is to return the following place characteristics stricly in JSON parsable format:
+    {
+      "p_density": "A floating point number from 0.0 (lowest) to 5.0, (highest), describing the amount of people expected on the place and date specified.",
+      "p_density_expl": "A helper description, for p_density, which is a textual explanation of how much people is expected.",
+      "tr_advice": "A description of how to get around the said place.",
+      "expected_weather": {
+        "temperature": {
+          "min_c": "Minimum temperature in Celsius.",
+          "max_c": "Maximum temperature in Celsius.",
+          "feels_like_c": "Perceived temperature in Celsius, considering humidity and wind."
+        },
+        "condition": "Concise label of overall weather (e.g., Clear, Sunny, Partly Cloudy, Overcast, Rain, Thunderstorms, Snow, Fog).",
+        "details": "Optional extended description (e.g., Light breeze with scattered clouds, humid, chance of showers).",
+        "humidity_percent": "Relative humidity as a percentage (0–100%).",
+        "precipitation_mm": "Expected total precipitation in millimeters.",
+        "wind": {
+          "speed_kph": "Average wind speed in kilometers per hour.",
+          "gust_kph": "Maximum wind gust speed in kilometers per hour.",
+          "direction_deg": "Wind direction in degrees (0–360, where 0 = North)."
+        },
+        "cloud_cover_percent": "Estimated cloud coverage as a percentage (0–100%).",
+        "uv_index": "UV index (0–11+).",
+        "visibility_km": "Average visibility distance in kilometers.",
+      }
+    }
+
+    Guidelines:
+    - Stricly only output JSON, parasable thru JSON.parse(). STRICLY, it must start with { and end with }.
+    - Do not mention any specific places, or POIs, especially for the KV pairs ["p_density_expl", "tr_advice"]. Only base your generation on historical data.
+
+    General Location: ${itinerary.general_location}
+    User Intent: ${JSON.parse(aiResult).actualUserIntent}
+    When: ${when.trim()} in format "YYYY-MM-DD - YYYY-MM-DD"
+    `;
+    const placeCharacteristics = await openAI_4o_mini(parseForPlaceParameterGeneration);
+    const hydratedItinerary = {
+      ...itinerary,
+      schedule: itinerary.schedule.map((day) => {
+        return {
+          ...day,
+          activities: day.activities.map((activity) => {
+            const placeIndex = placesData.findIndex(
+              (place) => place.id === activity.id
+            );
+            if (placeIndex === -1) return activity; // fallback if not found
+            const { types, name, ...clean } = placesData[placeIndex];
+            return {
+              ...activity,
+              ...clean,
+              photos: clean?.photos?.slice(0, 2) || [],
+            };
+          }),
+        };
+      }),
+      extras: { ...JSON.parse(placeCharacteristics) }
+    };
 
     res.json({
-      itinerary: itineraries[0],
+      itinerary: hydratedItinerary,
     });
 
     try {
+      // protection circuit, for informative logs
       await db
         .collection("users")
         .doc(req.user.id)
@@ -470,13 +464,10 @@ ${when}
           itinerary_credits_ttl: Timestamp.fromMillis(new Date().getTime()),
           updated_at: Timestamp.fromMillis(new Date().getTime()),
         });
-      // protection circuit, for informative logs
-      let ixxx = 0;
-      const placeDataResponse = await Promise.all(
-        placesData.map(async (place, i) => {
-          const result = await processPlace(place, true).catch((e) => {});
 
-          ixxx++;
+      await Promise.all(
+        placesData.map(async (place, i) => {
+          const result = await processPlace(place, true).catch((e) => { });
           return result;
         })
       );
@@ -496,12 +487,18 @@ ${when}
         .doc(uuid)
         .create({
           userId: req.user.id,
-          user_warn: itineraries[0].user_warn,
-          itinerary_title: itineraries[0].itinerary_title,
-          general_location: itineraries[0].general_location,
-          description: itineraries[0].description,
-          schedule: itineraries[0].schedule,
+          user_warn: hydratedItinerary.user_warn,
+          itinerary_title: hydratedItinerary.itinerary_title,
+          general_location: hydratedItinerary.general_location,
+          description: hydratedItinerary.description,
+          schedule: hydratedItinerary.schedule,
+          extras: hydratedItinerary.extras,
           created_at: Timestamp.fromMillis(new Date().getTime()),
+          userQuery: {
+            where: where.trim(),
+            what: what.trim(),
+            when: when.trim(),
+          }
         });
     } catch (e) {
       console.log(
@@ -518,4 +515,4 @@ ${when}
   }
 };
 
-module.exports = { generateItinerary, getSphericalCenter };
+module.exports = { generateItinerary };

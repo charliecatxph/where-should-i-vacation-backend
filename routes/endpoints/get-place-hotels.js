@@ -114,7 +114,7 @@ const processHotel = async (hotelData, cacheHotel) => {
         .collection("cached_hotels")
         .doc(hotelData.id)
         .set(normalized, { merge: true })
-        .then((d) => {})
+        .then((d) => { })
         .catch((e) => {
           console.log(e);
           throw new Error("Fail to cache place.");
@@ -206,13 +206,14 @@ const handleHotelEstimation = async (hydratedHotels, uncachedHotels) => {
     - Adjust based on likely travel demand, country cost index, and star class
     - Estimate accurately even if data is limited — use location and rating
     - Always return an estimatedPrice in USD
-    - The output must be a JSON array, starting with [, and ending with ], that can be parsed with JSON.parse()
-    - Do not explain anything, only return JSON
+   
+    STRICT RULES:
+    - The output must be a JSON array, starting with [, and ending with ] STRICTLY, that can be parsed with JSON.parse(). No preliminary text.
+    - Do not explain anything, only return JSON.
     
     Input:
     ${JSON.stringify(
       uncachedHotels.map((hotel) => {
-        console.log(hotel.displayName.text);
         return {
           id: hotel.id,
           name: hotel.displayName.text,
