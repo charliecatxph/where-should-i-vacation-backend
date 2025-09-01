@@ -26,6 +26,13 @@ const verifyAccount = async (req, res) => {
    });
   }
 
+  if (userData.verification_ttl.toMillis() < Date.now()) {
+   await db.collection("users").doc(userDoc.id).delete()
+   return res.status(400).json({
+    code: "VERIFICATION_EXPIRED",
+   });
+  }
+
   await db.collection("users").doc(acctId.trim()).update({
    verified: true,
   });

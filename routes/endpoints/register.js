@@ -3,17 +3,36 @@ import { Timestamp } from "firebase-admin/firestore";
 import db from "../../dependencies/firestore.js";
 import bcrypt from "bcrypt";
 import transporter from "../../dependencies/transporter.js";
+import axios from "axios";
+import moment from "moment";
 
 const register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, rcpToken } = req.body;
 
-    if (!name.trim() || !email.trim() || !password.trim()) {
+    if (!name.trim() || !email.trim() || !password.trim() || !rcpToken.trim()) {
         return res.status(400).json({
             code: "PARAMETERS_INCOMPLETE",
         });
     }
 
     try {
+        const rcpVerification = await axios.post("https://www.google.com/recaptcha/api/siteverify", null, {
+            params: {
+                secret: process.env.RECAPTCHA_SECRET,
+                response: rcpToken,
+            },
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+        })
+
+
+        if (!rcpVerification.data.success || rcpVerification.data.score < 0.5) {
+            return res.status(401).json({
+                code: "RECAPTCHA_FAIL",
+            });
+        }
+
         const dbCheck = await db
             .collection("users")
             .where("email", "==", email.trim())
@@ -44,6 +63,7 @@ const register = async (req, res) => {
             created_at: Timestamp.fromMillis(new Date().getTime()),
             method: "manual",
             verified: false,
+            verification_ttl: Timestamp.fromMillis(moment().add(15, "minutes").valueOf())
         });
 
         const htmlTemplate = `
@@ -205,7 +225,7 @@ const register = async (req, res) => {
                 </div>
 
                 <div class="message">
-                    To unlock all the amazing features and start planning your next getaway, please verify your email address by clicking the button below:
+                    To unlock all the amazing features and start planning your next getaway, please verify your email address by clicking the button below  (This link expires in 15 minutes):
                 </div>
 
                 <div style="text-align: center;">
@@ -259,6 +279,7 @@ ${process.env.ORIGIN}/verify-account?acctId=${newUser.id}
 - Save and organize your favorite travel ideas
 - Connect with fellow travelers and share experiences
 
+- This email expires in 15 minutes.
 ---
 This is an automated message. Please don't reply to this email.
 
