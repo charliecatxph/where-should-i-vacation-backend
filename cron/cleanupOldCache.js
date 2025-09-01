@@ -70,6 +70,33 @@ const cleanupHotels = async () => {
   }
 };
 
+const cleanupUnverifiedUsers = async () => {
+  try {
+    const oldCache = await db
+      .collection("users")
+      .where("verified", "==", false)
+      .get();
+    if (oldCache.empty) return;
+    let ix = 0;
+    await Promise.all(
+      oldCache.docs.map(async (user, i) => {
+        const data = user.data();
+        const id = user.id;
+
+        if (data.verification_ttl.toMillis() < Date.now()) {
+          await gcpLimiter.schedule(() => {
+            db.collection("users").doc(id).delete();
+          });
+        }
+        ix++;
+      })
+    );
+  } catch (e) {
+    // ignore errors
+    console.log(e);
+  }
+};
+
 const runCacheCleanup = () => {
   cron.schedule("0 0 * * *", async () => {
     await cleanupPlaces();
@@ -77,6 +104,10 @@ const runCacheCleanup = () => {
 
   cron.schedule("0 0 * * *", async () => {
     await cleanupHotels();
+  });
+
+  cron.schedule("0 0 * * *", async () => {
+    await cleanupUnverifiedUsers();
   });
 };
 

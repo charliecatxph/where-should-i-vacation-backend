@@ -2,17 +2,34 @@ import "dotenv/config";
 import db from "../../dependencies/firestore.js";
 import { sign } from "../../dependencies/jwt_sign.js";
 import bcrypt from "bcrypt";
+import axios from "axios";
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rcpToken } = req.body;
 
-  if (!email.trim() || !password.trim()) {
+  if (!email.trim() || !password.trim() || !rcpToken.trim()) {
     return res.status(400).json({
       code: "PARAMETERS_INCOMPLETE",
     });
   }
 
   try {
+    const rcpVerification = await axios.post("https://www.google.com/recaptcha/api/siteverify", null, {
+      params: {
+        secret: process.env.RECAPTCHA_SECRET,
+        response: rcpToken,
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      }
+    })
+
+    if (!rcpVerification.data.success || rcpVerification.data.score < 0.5) {
+      return res.status(401).json({
+        code: "RECAPTCHA_FAIL",
+      });
+    }
+
     const dbCheck = await db
       .collection("users")
       .where("email", "==", email.trim())

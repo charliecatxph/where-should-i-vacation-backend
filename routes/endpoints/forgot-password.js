@@ -3,18 +3,34 @@ import db from "../../dependencies/firestore.js";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 import transporter from "../../dependencies/transporter.js";
+import axios from "axios";
 
 const forgotPassword = async (req, res) => {
-    const { email } = req.body;
-    console.log("Forgot password endpoint hit.")
+    const { email, rcpToken } = req.body;
 
-    if (!email.trim()) {
+    if (!email.trim() || !rcpToken.trim()) {
         return res.status(400).json({
             code: "PARAMETERS_INCOMPLETE",
         });
     }
 
     try {
+        const rcpVerification = await axios.post("https://www.google.com/recaptcha/api/siteverify", null, {
+            params: {
+                secret: process.env.RECAPTCHA_SECRET,
+                response: rcpToken,
+            },
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            }
+        })
+
+
+        if (!rcpVerification.data.success || rcpVerification.data.score < 0.5) {
+            return res.status(401).json({
+                code: "RECAPTCHA_FAIL",
+            });
+        }
         const userCheck = await db.collection("users").where("email", "==", email.trim()).get();
 
         if (userCheck.empty) {
@@ -213,7 +229,6 @@ This is an automated message. Please don't reply to this email.
 
 
         transporter.sendMail(mailOptions).catch(async (e) => {
-
             try {
                 await db.collection("password-reset-history").doc(uuid).delete();
             } catch (e) {
