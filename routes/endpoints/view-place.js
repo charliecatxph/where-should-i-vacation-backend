@@ -30,7 +30,6 @@ const viewPlace = async (req, res) => {
       fill = {
         description:
           filler.editorialSummary?.text ??
-          filler.generativeSummary ??
           "No description.",
         rating: filler.rating || "N/A",
       };
