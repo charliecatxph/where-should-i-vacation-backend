@@ -16,6 +16,10 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
+import { ipCache } from "../../middlewares/rate-limiter.js";
+import jwt from "jsonwebtoken"
+
+const SECRET_ACCESS=process.env.SECRET_ACCESS;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -179,7 +183,6 @@ const processPlace = async (placeData, cachePlace, includeDescription) => {
 
 const getTravelRecommendations = async (req, res) => {
   const { uuid, when, what, where } = req.query;
-
   if (!uuid) {
     return res.status(400).json({
       code: "PARAMETERS_INCOMPLETE",
@@ -193,9 +196,9 @@ const getTravelRecommendations = async (req, res) => {
       .get();
     if (cachedGeneration.exists) {
       const data = cachedGeneration.data();
-      const { userId, ...excluded } = data;
+      const { userId, tmpReferrer, ...excluded } = data;
 
-      if (req.user.id !== userId) {
+      if (req.user?.id !== userId && userId !== null) {
         return res.status(400).json({
           code: "USER_GENERATION_ID_MISMATCH",
         });
@@ -258,6 +261,7 @@ const getTravelRecommendations = async (req, res) => {
         title: excluded.title,
         userQuery: excluded.userQuery,
         extras: { ...excluded.extras },
+        tmpReferrer,
       });
     }
 
@@ -267,18 +271,30 @@ const getTravelRecommendations = async (req, res) => {
       });
     }
 
-    const userCheck = await db.collection("users").doc(req.user.id).get();
-    if (!userCheck.exists) {
-      return res.status(400).json({
-        code: "USER_NOT_EXIST",
-      });
+    let userData = null;
+
+    if (!req.ntl) {
+      const userCheck = await db.collection("users").doc(req.user.id).get();
+      if (!userCheck.exists) {
+        return res.status(400).json({
+          code: "USER_NOT_EXIST",
+        });
+      }
+      userData = userCheck.data();
+      if (userData.generation_credits <= 0) {
+        return res.status(400).json({
+          code: "RAN_OUT_OF_CREDITS",
+        });
+      }
+    } else {
+      const ntlUser = req.ntl_user;
+      if (ntlUser.gen <= 0) {
+        return res.status(400).json({
+          code: "NTL_USR_RAN_OUT_OF_CREDITS",
+        });
+      }
     }
-    const userData = userCheck.data();
-    if (userData.generation_credits <= 0) {
-      return res.status(400).json({
-        code: "RAN_OUT_OF_CREDITS",
-      });
-    }
+  
 
     const parseForGMAPS_API = `
 You're a helpful and friendly AI assistant for a travel agency. Given:
@@ -292,6 +308,9 @@ Your job is to return touristy or exploratory suggestions in this format:
 {
   "interpretation": "A warm, personalized message (ideally with the user's name) that reflects the query and sparks excitement to explore.",
   "gcpQuery": "A clean, concise Google Maps/Places query based on the user's input.",
+  "lat": "General latitude of the query to be sent on GCP Text Search API",
+  "lng": "General longitude of the query to be sent on GCP Text Search API",
+  "rad": "Realistic search radius, not too far, for the query being in meters",
   "title": "Your catching title for the gcpQuery and interpretation generated.",
   "p_density": "A floating point number from 0.0 (lowest) to 5.0, (highest), describing the amount of people expected on the place and date specified.",
   "p_density_expl": "A helper description, for p_density, which is a textual explanation of how much people is expected.",
@@ -328,6 +347,7 @@ Guidelines:
   1. Top tourist destinations  
   2. Semi-casual or unique experiences  
   3. Food and dining
+- When a user is not logged in, it will show as N/A
 
 - If input is vague (e.g., "any", "surprise me") + a broad place (like "Russia"), keep gcpQuery short and focused on top tourist spots only.
 - Strictly only output JSON. It must start with { and end with }. Not with \`\`\`json or any other format.
@@ -338,13 +358,17 @@ Inputs:
 Where: ${where.trim() || '[EMPTY - Please choose a popular destination]'}  
 What: ${what.trim()}  
 When: ${when.trim()}
-User name: ${req.user.name}
+User name: ${req.user?.name || "N/A"}
 `;
 
     const aiResult = await openAI_4o_mini(parseForGMAPS_API);
-
-    const googleMapsQuery = JSON.parse(aiResult).gcpQuery;
-    const googleMapsPlaces = await gcpMaps_textSearch(googleMapsQuery);
+    const aiData = JSON.parse(aiResult);
+    const googleMapsPlaces = await gcpMaps_textSearch({
+      query: aiData.gcpQuery,
+      lat: parseFloat(aiData.lat),
+      lng: parseFloat(aiData.lng),
+      rad: parseFloat(aiData.rad)
+    }, 20);
 
     if (!googleMapsPlaces) {
       return res.status(400).json({
@@ -365,7 +389,12 @@ User name: ${req.user.name}
       )
     ).filter(Boolean);
 
-    const { gcpQuery, interpretation, title, ...cx } = JSON.parse(aiResult);
+    const { gcpQuery, interpretation, title, ...cx } = aiData;
+    
+    let tmpReferrer;
+    if (req.ntl) {
+      tmpReferrer = jwt.sign(req.ip.toString(), SECRET_ACCESS);
+    }
 
     res.json({
       interpretation: interpretation,
@@ -375,11 +404,13 @@ User name: ${req.user.name}
       userQuery: {
         when: when.trim(),
         what: what.trim(),
-        where: where.trim() || JSON.parse(aiResult).gen_where,
+        where: where.trim() || aiData.gen_where,
       },
+      tmpReferrer
     });
 
-    await db
+    if (!req.ntl) {
+      await db
       .collection("users")
       .doc(req.user.id)
       .update({
@@ -388,6 +419,12 @@ User name: ${req.user.name}
         generation_credits_ttl: Timestamp.fromMillis(new Date().getTime()),
         updated_at: Timestamp.fromMillis(new Date().getTime()),
       });
+    } else {
+      ipCache.set(req.ip.toString(), {
+        ...req.ntl_user,
+        gen: req.ntl_user.gen -= 1
+      })
+    }
 
     try {
       const placeDataResponse = (
@@ -403,12 +440,12 @@ User name: ${req.user.name}
         )
       ).filter(Boolean);
 
-      await db
+        await db
         .collection("generation-history")
         .doc(uuid)
         .create({
-          userId: req.user.id,
-          gcpQuery: googleMapsQuery,
+          userId: req.user?.id || null,
+          gcpQuery: gcpQuery,
           interpretation: interpretation,
           title: title,
           extras: { ...cx },
@@ -424,10 +461,12 @@ User name: ${req.user.name}
           userQuery: {
             when: when.trim(),
             what: what.trim(),
-            where: where.trim() || JSON.parse(aiResult).gen_where,
+            where: where.trim() || aiData.gen_where,
           },
+          tmpReferrer: tmpReferrer ?? "",
           created_at: Timestamp.fromMillis(new Date().getTime()),
         });
+      
     } catch (e) {
       console.log(
         `[${new Date().toISOString()}] [Get Travel Recommendations] IIFE Exception at ${req.originalUrl}. Error data: ${e.message}`

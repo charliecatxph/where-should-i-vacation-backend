@@ -8,6 +8,10 @@ const SECRET_REFRESH = process.env.SECRET_REFRESH;
 const secureCTXgate = async (req, res, next) => {
   const accessToken = req.headers.authorization?.split(" ")[1] || "";
   const refreshToken = req.cookies.refreshToken;
+  if (req.ntl) {
+    req.user = null;
+    return next();
+  }
 
   if (!accessToken) {
     return res.status(401).json({

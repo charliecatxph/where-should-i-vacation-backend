@@ -68,6 +68,15 @@ const userRehydration = async (req, res) => {
       token: newAccessToken,
     });
   } catch (e) {
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.MODE === "PRODUCTION",
+      sameSite: process.env.MODE === "PRODUCTION" ? "None" : "Lax",
+      path: "/",
+      domain:
+        process.env.MODE === "PRODUCTION" ? process.env.SERVER_URL : undefined,
+    });
+  
     console.log(
       `[${new Date().toISOString()}] [User Rehydration] Exception at ${req.originalUrl}. Error data: ${e.message}`
     );

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { Timestamp } from "firebase-admin/firestore";
 import {
   gcpMaps_placeDetailsEnterprise_FILLER,
@@ -5,15 +6,33 @@ import {
 import { processPlace } from "./get-travel-recommendations.js";
 import db from "../../dependencies/firestore.js";
 import moment from "moment";
+import jwt from "jsonwebtoken"
+const SECRET_ACCESS = process.env.SECRET_ACCESS;
 
 const viewPlace = async (req, res) => {
   const { id } = req.query;
+  const referrer = req.headers["x-wta-temporary-referrer"] || "";
+ 
 
   if (!id.trim()) {
     return res.status(400).json({
       code: "PARAMETERS_INCOMPLETE",
     });
   }
+
+  try {
+    if (req.ntl) {
+      const d = jwt.verify(referrer, SECRET_ACCESS);
+
+      if (d !== req.ip.toString()) throw new Error("X")
+    }
+  } catch(e) {
+    return res.status(401).json({
+      code: "NTL_UNAUTH",
+    });
+  }
+
+  
 
   try {
     const place = await processPlace({ id: id.trim() }, false);

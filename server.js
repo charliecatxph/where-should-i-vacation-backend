@@ -55,6 +55,8 @@ server.get("/", (req, res) => {
   res.send("Hello there :)")
 })
 
+
+
 server.listen(process.env.PORT, async () => {
   createCacheDirectory();
   console.log(`📂 Created image cache folders.`);

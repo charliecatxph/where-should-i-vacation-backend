@@ -19,6 +19,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
+import { ipCache } from "../../middlewares/rate-limiter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -204,12 +205,48 @@ const generateItinerary = async (req, res) => {
       .doc(uuid)
       .get();
 
-    if (checkGeneration.exists) {
-      return res.json({
-        itinerary: checkGeneration.data(),
-        cached: true,
-      });
-    }
+      if (checkGeneration.exists) {
+        let data = checkGeneration.data();
+      
+        if (data.hold) {
+          console.log("Itinerary is currently generating... please wait!");
+      
+          let pingLimit = 20;
+      
+          while (pingLimit > 0) {
+            console.log("Waiting for itinerary to be generated...");
+            console.log(`Poll number: ${20 - pingLimit}`);
+            await new Promise((resolve) => setTimeout(resolve, 15000)); 
+      
+            const doc = await db
+              .collection("itinerary-generation-history")
+              .doc(uuid)
+              .get();
+      
+            data = doc.data();
+      
+            if (!data?.hold) {
+              console.log("Poll OK. Returning...")
+              break;
+            }
+      
+            pingLimit--;
+          }
+
+          if (pingLimit <= 0) {
+            return res.status(400).json({
+              code: "ITINERARY_GENERATION_POLLING_TIMEOUT",
+            });
+          }
+        }
+      
+        return res.json({
+          itinerary: data,
+          cached: true,
+        });
+      }
+
+    
 
     if (!when.trim() || !what.trim()) {
       return res.status(400).json({
@@ -217,22 +254,39 @@ const generateItinerary = async (req, res) => {
       });
     }
 
-    const userCheck = await db.collection("users").doc(req.user.id).get();
+    let userData = null;
+    if (!req.ntl) {
+      const userCheck = await db.collection("users").doc(req.user.id).get();
 
-    if (!userCheck.exists) {
-      return res.status(400).json({
-        code: "USER_NOT_EXIST",
-      });
+      if (!userCheck.exists) {
+        return res.status(400).json({
+          code: "USER_NOT_EXIST",
+        });
+      }
+  
+      userData = userCheck.data();
+  
+      if (userData.itinerary_credits <= 0) {
+        return res.status(400).json({
+          code: "RAN_OUT_OF_CREDITS",
+        });
+      }  
+    } else {
+      const ntlUser = req.ntl_user;
+      if (ntlUser.it <= 0) {
+        return res.status(400).json({
+          code: "NTL_USR_RAN_OUT_OF_CREDITS",
+        });
+      }
     }
 
-    const userData = userCheck.data();
+    await db.collection("itinerary-generation-history").doc(uuid).create({
+        userId: req.user?.id || "",
+        hold: true, // Hold refreshes or requests since it is on hold
+        generationTimeout: Timestamp.fromMillis(moment.utc().add(60, "minutes").valueOf()),
+    })
 
-    if (userData.itinerary_credits <= 0) {
-      return res.status(400).json({
-        code: "RAN_OUT_OF_CREDITS",
-      });
-    }
-
+ 
     const parseForGMAPS_API = `
     You are a helpful and friendly AI assistant working for a travel agency.
 
@@ -246,8 +300,20 @@ const generateItinerary = async (req, res) => {
     Return a single JSON object in the exact format below:
 
     {
-      "query": ["query1", "query2", "query3"],
-      "actualUserIntent": "Concise interpretation of what the user wants based on the input"
+      "actualUserIntent": "Concise interpretation of what the user wants based on the input",
+      "data": [{
+        "query": "query1",
+        "lat": "General latitude of the query to be sent on GCP Text Search API",
+        "lng": "General longitude of the query to be sent on GCP Text Search API",
+        "rad": "Realistic search radius, not too far, for the query being in meters. Please take note of the geographical features of the place, strictly."
+      }, {
+        "query": "query2",
+        "lat": "General latitude of the query to be sent on GCP Text Search API",
+        "lng": "General longitude of the query to be sent on GCP Text Search API",
+        "rad": "Realistic search radius, not too far, for the query being in meters. Please take note of the geographical features of the place, strictly."
+      },
+      ...
+      ]
     }
 
     Important rules:
@@ -269,9 +335,15 @@ const generateItinerary = async (req, res) => {
    `;
 
     const aiResult = await openAI_4o_mini(parseForGMAPS_API);
+
     const places = await Promise.all(
-      JSON.parse(aiResult).query.map(async (placeId, i) => {
-        const x = await gcpMaps_textSearch(placeId, 20);
+      JSON.parse(aiResult).data.map(async (data, i) => {
+        const x = await gcpMaps_textSearch({
+          query: data.query,
+          lat: parseFloat(data.lat),
+          lng: parseFloat(data.lng),
+          rad: parseFloat(data.rad)
+        }, 20);
         return x;
       })
     );
@@ -445,14 +517,14 @@ const generateItinerary = async (req, res) => {
             const placeIndex = placesData.findIndex(
               (place) => place.id === activity.id
             );
-            if (placeIndex === -1) return activity; // fallback if not found
+            if (placeIndex === -1) return null; // If place cannot be referenced back, return null and filter.
             const { types, name, ...clean } = placesData[placeIndex];
             return {
               ...activity,
               ...clean,
               photos: clean?.photos?.slice(0, 2) || [],
             };
-          }),
+          }).filter(Boolean),
         };
       }),
       extras: { ...JSON.parse(placeCharacteristics) }
@@ -464,7 +536,8 @@ const generateItinerary = async (req, res) => {
 
     try {
       // protection circuit, for informative logs
-      await db
+      if (!req.ntl) {
+        await db
         .collection("users")
         .doc(req.user.id)
         .update({
@@ -473,6 +546,12 @@ const generateItinerary = async (req, res) => {
           itinerary_credits_ttl: Timestamp.fromMillis(new Date().getTime()),
           updated_at: Timestamp.fromMillis(new Date().getTime()),
         });
+      } else {
+        ipCache.set(req.ip.toString(), {
+          ...req.ntl_user,
+          it: req.ntl_user.it -= 1
+        })
+      }
 
       await Promise.all(
         placesData.map(async (place, i) => {
@@ -486,20 +565,10 @@ const generateItinerary = async (req, res) => {
       )
 
       await db
-        .collection("users")
-        .doc(req.user.id)
-        .update({
-          ...userData,
-          itinerary_credits: userData.itinerary_credits - 1,
-          itinerary_credits_ttl: Timestamp.fromMillis(new Date().getTime()),
-          updated_at: Timestamp.fromMillis(new Date().getTime()),
-        });
-
-      await db
         .collection("itinerary-generation-history")
         .doc(uuid)
-        .create({
-          userId: req.user.id,
+        .set({
+          userId: req.user?.id || "",
           user_warn: hydratedItinerary.user_warn,
           itinerary_title: hydratedItinerary.itinerary_title,
           general_location: hydratedItinerary.general_location,
@@ -511,8 +580,9 @@ const generateItinerary = async (req, res) => {
             where: where.trim(),
             what: what.trim(),
             when: when.trim(),
-          }
-        });
+          },
+          hold: false
+        }, { merge: true});
     } catch (e) {
       console.log(
         `[${new Date().toISOString()}] [Generate Itinerary] IIFE Exception at ${req.originalUrl}. Error data: ${e.message}`
