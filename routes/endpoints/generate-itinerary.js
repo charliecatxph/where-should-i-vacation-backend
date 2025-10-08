@@ -20,6 +20,7 @@ import { fileURLToPath } from "url";
 import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
 import { ipCache } from "../../middlewares/rate-limiter.js";
+import logger from "../../dependencies/logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -200,6 +201,7 @@ const generateItinerary = async (req, res) => {
   }
 
   try {
+    logger(`Checking itinerary generation history for ${uuid}`, req.path);
     const checkGeneration = await db
       .collection("itinerary-generation-history")
       .doc(uuid)
@@ -209,13 +211,13 @@ const generateItinerary = async (req, res) => {
         let data = checkGeneration.data();
       
         if (data.hold) {
-          console.log("Itinerary is currently generating... please wait!");
+
+          logger(`Itinerary is currently generating.`, req.path);
       
           let pingLimit = 20;
       
           while (pingLimit > 0) {
-            console.log("Waiting for itinerary to be generated...");
-            console.log(`Poll number: ${20 - pingLimit}`);
+            logger(`Waiting for itinerary to be generated...`, req.path);
             await new Promise((resolve) => setTimeout(resolve, 15000)); 
       
             const doc = await db
@@ -226,7 +228,7 @@ const generateItinerary = async (req, res) => {
             data = doc.data();
       
             if (!data?.hold) {
-              console.log("Poll OK. Returning...")
+              logger(`Poll OK. Returning to user...`, req.path);
               break;
             }
       
@@ -234,12 +236,14 @@ const generateItinerary = async (req, res) => {
           }
 
           if (pingLimit <= 0) {
+            logger(`Polling timeout. Returning error to user...`, req.path);
             return res.status(400).json({
               code: "ITINERARY_GENERATION_POLLING_TIMEOUT",
             });
           }
         }
       
+        logger(`Returning itinerary to user...`, req.path);
         return res.json({
           itinerary: data,
           cached: true,
@@ -280,6 +284,7 @@ const generateItinerary = async (req, res) => {
       }
     }
 
+    logger(`Creating shallow itinerary generation history for ${uuid}...`, req.path);
     await db.collection("itinerary-generation-history").doc(uuid).create({
         userId: req.user?.id || "",
         hold: true, // Hold refreshes or requests since it is on hold
@@ -334,19 +339,25 @@ const generateItinerary = async (req, res) => {
     What Preferred: ${what_preferred.trim()}
    `;
 
+    logger(`Sending request to OpenAI...`, req.path);
     const aiResult = await openAI_4o_mini(parseForGMAPS_API);
 
+    logger(`Received response from OpenAI.`, req.path);
     const places = await Promise.all(
       JSON.parse(aiResult).data.map(async (data, i) => {
+        logger(`Sending query ${data.query} for IDs to GCP Maps Text Search API...`, req.path);
         const x = await gcpMaps_textSearch({
           query: data.query,
           lat: parseFloat(data.lat),
           lng: parseFloat(data.lng),
           rad: parseFloat(data.rad)
         }, 20);
+        logger(`Received IDs from response for query ${data.query} from GCP Maps Text Search API.`, req.path);
         return x;
       })
     );
+
+    logger(`Received IDs from all queries.`, req.path);
 
     if (places.length === 0)
       throw new Error("No places returned from search query.");
@@ -366,13 +377,18 @@ const generateItinerary = async (req, res) => {
     const placesData = (await Promise.all(
       placesFlatDedupe.map(async (placeId, i) => {
         try {
+          logger(`Sending request to process place ${placeId}...`, req.path);
           const x = await processPlace({ id: placeId });
+          logger(`Received response from process place ${placeId}.`, req.path);
           return x;
         } catch (e) {
+          logger(`Failed to process place ${placeId}.`, req.path);
           return null;
         }
       })
     )).filter(Boolean);
+
+    logger(`Received hydrated data from all places.`, req.path);
 
     const poiList = placesData
       .map((place, i) => {
@@ -462,8 +478,10 @@ const generateItinerary = async (req, res) => {
     ${when.trim()} in format "YYYY-MM-DD - YYYY-MM-DD"
     `;
 
+    logger(`Sending request to OpenAI for itinerary creation...`, req.path);
     const itineraryList = await openAI_4o_mini(parseForItineraryGeneration);
 
+    logger(`Received itinerary from OpenAI.`, req.path);
     // Parse raw itineraries and perform duplicate ID check on the first itinerary
     const itinerary = JSON.parse(itineraryList)[0];
     const parseForPlaceParameterGeneration = `
@@ -507,7 +525,10 @@ const generateItinerary = async (req, res) => {
     User Intent: ${JSON.parse(aiResult).actualUserIntent}
     When: ${when.trim()} in format "YYYY-MM-DD - YYYY-MM-DD"
     `;
+
+    logger(`Sending request to OpenAI for place characteristics...`, req.path);
     const placeCharacteristics = await openAI_4o_mini(parseForPlaceParameterGeneration);
+    logger(`Received place characteristics from OpenAI.`, req.path);
     const hydratedItinerary = {
       ...itinerary,
       schedule: itinerary.schedule.map((day) => {
@@ -533,10 +554,10 @@ const generateItinerary = async (req, res) => {
     res.json({
       itinerary: hydratedItinerary,
     });
-
     try {
       // protection circuit, for informative logs
       if (!req.ntl) {
+        logger(`Sending request to update user itinerary credits...`, req.path);
         await db
         .collection("users")
         .doc(req.user.id)
@@ -546,24 +567,31 @@ const generateItinerary = async (req, res) => {
           itinerary_credits_ttl: Timestamp.fromMillis(new Date().getTime()),
           updated_at: Timestamp.fromMillis(new Date().getTime()),
         });
+        logger(`Updated user itinerary credits.`, req.path);
       } else {
+        logger(`Sending request to update user itinerary credits in cache...`, req.path);
         ipCache.set(req.ip.toString(), {
           ...req.ntl_user,
           it: req.ntl_user.it -= 1
         })
+        logger(`Updated user itinerary credits in cache.`, req.path);
       }
 
       await Promise.all(
         placesData.map(async (place, i) => {
           try {
+            logger(`Sending request to cache place ${place.id}...`, req.path);
             const result = await processPlace(place, true)
+            logger(`Place ID ${place.id} cached.`, req.path);
             return result;
           } catch (e) {
+            logger(`Failed to cache place ${place.id}.`, req.path);
             return null;
           }
         })
       )
 
+      logger(`Finalizing save itinerary history...`, req.path);
       await db
         .collection("itinerary-generation-history")
         .doc(uuid)
@@ -583,14 +611,17 @@ const generateItinerary = async (req, res) => {
           },
           hold: false
         }, { merge: true});
+      logger(`Itinerary history saved.`, req.path);
     } catch (e) {
-      console.log(
-        `[${new Date().toISOString()}] [Generate Itinerary] IIFE Exception at ${req.originalUrl}. Error data: ${e.message}`
+      logger(
+        `IIFE Exception at ${req.path}. Error data: ${e.message}`,
+        req.path
       );
     }
   } catch (e) {
-    console.log(
-      `[${new Date().toISOString()}] [Generate Itinerary] Exception at ${req.originalUrl}. Error data: ${e.message}`
+    logger(
+      `Exception at ${req.path}. Error data: ${e.message}`,
+      req.path
     );
     return res.status(500).json({
       code: "SERVER_ERROR",

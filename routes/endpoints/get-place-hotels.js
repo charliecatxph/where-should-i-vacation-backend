@@ -19,6 +19,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
+import logger from "../../dependencies/logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -254,14 +255,19 @@ const getPlaceHotels = async (req, res) => {
     });
   }
   try {
+    logger(`Sending request to GCP Maps for hotel IDs...`, req.path);
     const gcpHotelIds = await gcpMaps_getHotels(lat, lng);
+    logger(`Received hotel IDs from GCP Maps.`, req.path);
 
     const hydratedHotels = (await Promise.all(
       gcpHotelIds.map(async (hotel, index) => {
         try {
+          logger(`Sending request to process hotel ${hotel.id}...`, req.path);
           const dataTemp = await processHotel(hotel, false);
+          logger(`Received response from process hotel ${hotel.id}.`, req.path);
           return dataTemp;
         } catch (e) {
+          logger(`Failed to process hotel ${hotel.id}.`, req.path);
           return null;
         }
       })
@@ -277,10 +283,12 @@ const getPlaceHotels = async (req, res) => {
       return hotel.cached;
     });
 
+    logger(`Sending request to OpenAI for hotel estimation...`, req.path);
     const hydratedUncachedHotels = await handleHotelEstimation(
       hydratedHotels,
       hotelsUncached
     );
+    logger(`Received hotel estimation from OpenAI.`, req.path);
     const cleanedUncachedHotels = hydratedUncachedHotels.map(
       ({ name, cached, ttl, ...rest }) => rest
     );
@@ -301,19 +309,22 @@ const getPlaceHotels = async (req, res) => {
       await Promise.all(
         hydratedUncachedHotels.map(async (uncachedHotel, index) => {
           const { name, cached, ...clean } = uncachedHotel;
+          logger(`Sending request to cache hotel ${uncachedHotel.id}...`, req.path);
           const dataTemp = await processHotel(clean, true);
-
+          logger(`Hotel ${uncachedHotel.id} cached.`, req.path);
           return dataTemp;
         })
       );
     } catch (e) {
-      console.log(
-        `[${new Date().toISOString()}] [Hotel Saving] IIFE Exception at ${req.originalUrl}. Error data: ${e.message}`
+      logger(
+        `IIFE Exception at ${req.path}. Error data: ${e.message}`,
+        req.path
       );
     }
   } catch (e) {
-    console.log(
-      `[${new Date().toISOString()}] [Hotel Saving] Exception at ${req.originalUrl}. Error data: ${e.message}`
+    logger(
+      `Exception at ${req.path}. Error data: ${e.message}`,
+      req.path
     );
     return res.status(500).json({
       code: "SERVER_ERROR",

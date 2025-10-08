@@ -1,7 +1,9 @@
 import db from "../../dependencies/firestore.js";
+import logger from "../../dependencies/logger.js";
 
 const getGenerationHistory = async (req, res) => {
   try {
+    logger(`Checking generation history for ${req.user.id}`, req.path);
     const snapshot = await db
       .collection("generation-history")
       .where("userId", "==", req.user.id)
@@ -9,6 +11,8 @@ const getGenerationHistory = async (req, res) => {
       .get();
 
     if (snapshot.size === 0) {
+      logger(`No generation history for ${req.user.id}`, req.path);
+    
       return res.json({
         generations: [],
       });
@@ -24,13 +28,12 @@ const getGenerationHistory = async (req, res) => {
       };
     });
 
+    logger("Returning generation history to user...", req.path);
     res.json({
       generations,
     });
   } catch (e) {
-    console.log(
-      `[${new Date().toISOString()}] [Get Generation History] Exception at ${req.originalUrl}. Error data: ${e.message}`
-    );
+    logger(`Exception at ${req.originalUrl}. Error data: ${e.message}`, req.path)
     return res.status(500).json({
       code: "SERVER_ERROR",
       err: e.message,

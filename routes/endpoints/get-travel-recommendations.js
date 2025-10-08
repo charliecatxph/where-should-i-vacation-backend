@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
 import { ipCache } from "../../middlewares/rate-limiter.js";
 import jwt from "jsonwebtoken"
+import logger from "../../dependencies/logger.js";
 
 const SECRET_ACCESS=process.env.SECRET_ACCESS;
 
@@ -190,6 +191,7 @@ const getTravelRecommendations = async (req, res) => {
   }
 
   try {
+    logger(`Checking travel recommendations generation history for ${uuid}`, req.path);
     const cachedGeneration = await db
       .collection("generation-history")
       .doc(uuid)
@@ -204,37 +206,19 @@ const getTravelRecommendations = async (req, res) => {
         });
       }
 
-      const ttlCheckCachedPlaces = excluded.cachedPlaces.filter(
-        (placeCache) => Timestamp.now().toMillis() < placeCache.ttl.toMillis()
-      );
-
-      if (ttlCheckCachedPlaces.length !== 0) {
-        await db
-          .collection("generation-history")
-          .doc(uuid)
-          .update({ cachedPlaces: ttlCheckCachedPlaces });
-      }
-
-      const mergedIds = Array.from(
-        new Set([
-          ...excluded.generation,
-          ...ttlCheckCachedPlaces.map((place) => place.id),
-        ])
-      );
-
-      const missingIds = [];
 
       const fetchPlaces = (await Promise.all(
-        mergedIds.map(async (id) => {
+        data.generation.map(async (id) => {
           try {
+            logger(`Fetching place ${id}...`, req.path);
             const cacheDoc = await db.collection("cached_places").doc(id).get();
-
             if (cacheDoc.exists) {
+              logger(`Place ID ${id} found in cache.`, req.path);
               return cacheDoc.data();
-            } else {
-              missingIds.push(id);
-
-              const refetched = await processPlace(id);
+            } else {  
+              logger(`Sending recache request for place ${id}...`, req.path);
+              const refetched = await processPlace({id});
+              logger(`Place ID ${id} recached.`, req.path);
               return refetched;
             }
           } catch (e) {
@@ -243,16 +227,7 @@ const getTravelRecommendations = async (req, res) => {
         })
       )).filter(Boolean);
 
-      if (missingIds.length > 0) {
-        const updatedCachedPlaces = ttlCheckCachedPlaces.filter(
-          (place) => !missingIds.includes(place.id)
-        );
-
-        await db
-          .collection("generation-history")
-          .doc(uuid)
-          .update({ cachedPlaces: updatedCachedPlaces });
-      }
+      logger(`Returning travel recommendations to user...`, req.path);
 
       return res.json({
         cached: true,
@@ -361,28 +336,34 @@ When: ${when.trim()}
 User name: ${req.user?.name || "N/A"}
 `;
 
+    logger(`Sending request to OpenAI...`, req.path);
     const aiResult = await openAI_4o_mini(parseForGMAPS_API);
     const aiData = JSON.parse(aiResult);
+    logger(`Received response from OpenAI.`, req.path);
+    logger(`Sending request to Google Maps...`, req.path);
     const googleMapsPlaces = await gcpMaps_textSearch({
       query: aiData.gcpQuery,
       lat: parseFloat(aiData.lat),
       lng: parseFloat(aiData.lng),
       rad: parseFloat(aiData.rad)
     }, 20);
-
+    logger(`Received response from Google Maps.`, req.path);
     if (!googleMapsPlaces) {
       return res.status(400).json({
         code: "NO_PLACES",
       });
     }
-
+    logger(`Processing places...`, req.path);
     const placeDataResponse_quickSign = (
       await Promise.all(
         googleMapsPlaces.map(async (place, i) => {
           try {
+            logger(`Processing place ${place.id}...`, req.path);
             const result = await processPlace(place, false);
+            logger(`Processed place ${place.id}.`, req.path);
             return result;
           } catch (e) {
+            logger(`Failed to process place ${place.id}.`, req.path);
             return null;
           }
         })
@@ -393,9 +374,11 @@ User name: ${req.user?.name || "N/A"}
     
     let tmpReferrer;
     if (req.ntl) {
+      logger(`Generating temporary referrer for NTL user...`, req.path);
       tmpReferrer = jwt.sign(req.ip.toString(), SECRET_ACCESS);
     }
 
+    logger(`Returning travel recommendations to user...`, req.path);
     res.json({
       interpretation: interpretation,
       places: placeDataResponse_quickSign,
@@ -410,6 +393,7 @@ User name: ${req.user?.name || "N/A"}
     });
 
     if (!req.ntl) {
+      logger(`Decrementing generation credits for user...`, req.path);
       await db
       .collection("users")
       .doc(req.user.id)
@@ -419,11 +403,14 @@ User name: ${req.user?.name || "N/A"}
         generation_credits_ttl: Timestamp.fromMillis(new Date().getTime()),
         updated_at: Timestamp.fromMillis(new Date().getTime()),
       });
+      logger(`Generation credits decremented.`, req.path);
     } else {
+      logger(`Decrementing NTL user usage...`, req.path);
       ipCache.set(req.ip.toString(), {
         ...req.ntl_user,
         gen: req.ntl_user.gen -= 1
       })
+      logger(`NTL user usage quota decremented.`, req.path);
     }
 
     try {
@@ -431,7 +418,9 @@ User name: ${req.user?.name || "N/A"}
         await Promise.all(
           placeDataResponse_quickSign.map(async (place, i) => {
             try {
+              logger(`Caching place ID ${place.id}...`, req.path);
               const result = await processPlace(place, true);
+              logger(`Place ID ${place.id} cached.`, req.path);
               return result;
             } catch (e) {
               return null;
@@ -440,10 +429,11 @@ User name: ${req.user?.name || "N/A"}
         )
       ).filter(Boolean);
 
+      logger(`Saving generation...`, req.path);
         await db
         .collection("generation-history")
         .doc(uuid)
-        .create({
+        .set({
           userId: req.user?.id || null,
           gcpQuery: gcpQuery,
           interpretation: interpretation,
@@ -452,12 +442,6 @@ User name: ${req.user?.name || "N/A"}
           generation: placeDataResponse.map((place) => {
             return place.id;
           }),
-          cachedPlaces: placeDataResponse.map((place) => {
-            return {
-              id: place.id,
-              ttl: place.ttl,
-            };
-          }),
           userQuery: {
             when: when.trim(),
             what: what.trim(),
@@ -465,17 +449,15 @@ User name: ${req.user?.name || "N/A"}
           },
           tmpReferrer: tmpReferrer ?? "",
           created_at: Timestamp.fromMillis(new Date().getTime()),
-        });
+        }, { merge: true });
+
+        logger(`Generation saved.`, req.path);
       
     } catch (e) {
-      console.log(
-        `[${new Date().toISOString()}] [Get Travel Recommendations] IIFE Exception at ${req.originalUrl}. Error data: ${e.message}`
-      );
+      logger(`IIFE Exception at ${req.originalUrl}. Error data: ${e.message}`, req.path);
     }
   } catch (e) {
-    console.log(
-      `[${new Date().toISOString()}] [Get Travel Recommendations] Exception at ${req.originalUrl}. Error data: ${e.message}`
-    );
+    logger(`Exception at ${req.originalUrl}. Error data: ${e.message}`, req.path)
     return res.status(500).json({
       code: "SERVER_ERROR",
       err: e.message,
